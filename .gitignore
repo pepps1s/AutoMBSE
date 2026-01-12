@@ -32,7 +32,6 @@ deployment/.env
 
 # AutoMBSE runtime caches/outputs (keep curated artifacts only)
 cache/
-out/long_period/
 out/rule_states.json
 out/sysml_tree.json
 out/log-history.md

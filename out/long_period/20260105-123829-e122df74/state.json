@@ -1,0 +1,4371 @@
+{
+  "version": 1,
+  "run_id": "20260105-123829-e122df74",
+  "created_at": "2026-01-05T12:38:29Z",
+  "updated_at": "2026-01-05T21:27:22Z",
+  "llm_round": 525,
+  "plan": [
+    {
+      "diagram_id": "RD-CTX-001",
+      "type": "RD",
+      "title": "System Context & Scope Boundary",
+      "goal": "Define the TMT system-of-interest boundary, external actors/systems, and scope inclusions/exclusions for the RD phase.",
+      "dependencies": [],
+      "acceptance_checks": [
+        "Identifies system-of-interest and at least 8 external entities (e.g., site infrastructure, operators, instruments, archive, power/HVAC, environment).",
+        "States explicit in-scope/out-of-scope items (e.g., AO optionality, instrument abstraction level).",
+        "Uses consistent naming for TMT and top-level external entities across all RD artifacts."
+      ]
+    },
+    {
+      "diagram_id": "RD-CTX-002",
+      "type": "RD",
+      "title": "Stakeholders & Concerns Catalog",
+      "goal": "Capture stakeholder groups and their primary concerns to drive requirements completeness and prioritization.",
+      "dependencies": [
+        "RD-CTX-001"
+      ],
+      "acceptance_checks": [
+        "Lists at least 10 stakeholder groups (science users, operators, maintainers, safety, data users, site, partners).",
+        "Each stakeholder has 3+ concerns mapped to requirement themes (performance, safety, availability, maintainability, data quality).",
+        "Concerns are traceable to at least one planned RD requirement item by title keyword alignment."
+      ]
+    },
+    {
+      "diagram_id": "RD-CTX-003",
+      "type": "RD",
+      "title": "Mission Goals & Science Drivers (Top-Level)",
+      "goal": "Define mission goals and science drivers as top-level sources for functional and performance requirements.",
+      "dependencies": [
+        "RD-CTX-001",
+        "RD-CTX-002"
+      ],
+      "acceptance_checks": [
+        "Defines at least 6 mission/science goals (early universe, galaxy evolution, exoplanets, BH growth, etc.).",
+        "Maps each goal to at least one capability statement (collect light, high angular resolution, long exposures).",
+        "Uses a consistent goal/capability taxonomy that will be reused in RD traceability."
+      ]
+    },
+    {
+      "diagram_id": "RD-ASM-001",
+      "type": "RD",
+      "title": "Assumptions, Dependencies, and Constraints Register",
+      "goal": "Document RD assumptions, external dependencies, and programmatic/physical constraints (including site constraints) that shape requirements.",
+      "dependencies": [
+        "RD-CTX-001"
+      ],
+      "acceptance_checks": [
+        "Contains at least 15 assumptions and 10 constraints with rationale.",
+        "Marks each item with status (assumed/confirmed/open) and impact area (ops, safety, performance, cost, schedule).",
+        "Includes site-related constraints and how they influence operational requirements."
+      ]
+    },
+    {
+      "diagram_id": "RD-F-001",
+      "type": "RD",
+      "title": "Black-Box Functions Overview",
+      "goal": "Establish the system-level black-box functions and their intent as the basis for functional requirements.",
+      "dependencies": [
+        "RD-CTX-003"
+      ],
+      "acceptance_checks": [
+        "Includes at least 10 black-box functions (collect light, pointing/tracking, phasing, WFS, instrument hosting, sequencing, data capture, safety).",
+        "Each function has a short definition and primary inputs/outputs identified at a high level.",
+        "Function names align with subsequent functional requirement titles (prefix consistency)."
+      ]
+    },
+    {
+      "diagram_id": "RD-F-002",
+      "type": "RD",
+      "title": "Observation Lifecycle Functional Decomposition",
+      "goal": "Decompose the end-to-end observation lifecycle into functional steps used to derive requirements and scenarios.",
+      "dependencies": [
+        "RD-F-001"
+      ],
+      "acceptance_checks": [
+        "Covers startup, slew, acquisition, alignment/phasing, (optional) AO closure, exposure loop, calibration, shutdown.",
+        "Identifies at least 3 alternate paths (weather abort, fault abort, instrument unavailable).",
+        "Maps each lifecycle step to at least one functional requirement placeholder."
+      ]
+    },
+    {
+      "diagram_id": "RD-F-003",
+      "type": "RD",
+      "title": "Pointing, Tracking & Stabilization Functional Requirements Set",
+      "goal": "Define functional requirements for pointing, tracking, settling, guiding, and stabilization needed for long exposures.",
+      "dependencies": [
+        "RD-F-001",
+        "RD-ASM-001"
+      ],
+      "acceptance_checks": [
+        "At least 12 functional requirements with clear shall-statements.",
+        "Includes interfaces to mount/encoders and guidance sensors at requirement level (no design decisions).",
+        "Each requirement includes a measurable criterion placeholder (tolerance/latency/settling) even if TBD."
+      ]
+    },
+    {
+      "diagram_id": "RD-F-004",
+      "type": "RD",
+      "title": "Optical Alignment & Segment Phasing Functional Requirements Set",
+      "goal": "Define functional requirements for segmented M1 alignment, segment actuation, metrology, and phasing loop behaviors.",
+      "dependencies": [
+        "RD-F-001",
+        "RD-CTX-001"
+      ],
+      "acceptance_checks": [
+        "References segmented primary mirror concept and supports segment-level control behaviors.",
+        "At least 12 functional requirements including sensing, compute, command, verify, and maintain phasing.",
+        "Includes modes: initial alignment, continuous maintenance, recovery after disturbance."
+      ]
+    },
+    {
+      "diagram_id": "RD-F-005",
+      "type": "RD",
+      "title": "Instrument Hosting & Services Functional Requirements Set",
+      "goal": "Capture functional requirements for instrument ports, selection, service provisioning (power/data/thermal/control), and calibration unit interaction.",
+      "dependencies": [
+        "RD-F-001",
+        "RD-CTX-001"
+      ],
+      "acceptance_checks": [
+        "At least 10 functional requirements covering port selection, service enable/disable, health checks, safe isolation.",
+        "Includes requirement hooks for instrument metadata and configuration management.",
+        "Defines required service categories without prescribing exact protocols."
+      ]
+    },
+    {
+      "diagram_id": "RD-F-006",
+      "type": "RD",
+      "title": "Observatory Control & Sequencing Functional Requirements Set",
+      "goal": "Define OCS-level functional requirements for sequencing, configuration, telemetry, alarms, and operator interactions.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-CTX-002"
+      ],
+      "acceptance_checks": [
+        "At least 15 functional requirements for sequencing, state management, command authorization, and automation.",
+        "Includes fault detection/notification actions and safe-state transitions as functional obligations.",
+        "Defines minimum telemetry/logging functional obligations for post-run analysis."
+      ]
+    },
+    {
+      "diagram_id": "RD-F-007",
+      "type": "RD",
+      "title": "Data Acquisition, Metadata & Data Product Functional Requirements Set",
+      "goal": "Define functional requirements for raw data capture, metadata integrity, quick-look QA, pipeline interfaces, and archive delivery.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-CTX-001"
+      ],
+      "acceptance_checks": [
+        "At least 12 functional requirements covering capture, timestamping, metadata completeness, integrity checks, and transfer.",
+        "Includes requirements for traceable provenance (configuration + environmental + calibration context).",
+        "Defines data delivery interfaces at black-box level (no storage technology commitments)."
+      ]
+    },
+    {
+      "diagram_id": "RD-F-008",
+      "type": "RD",
+      "title": "Safety, Interlocks & Emergency Response Functional Requirements Set",
+      "goal": "Capture functional requirements for personnel safety, interlocks, emergency stop, hazard detection, and controlled shutdown.",
+      "dependencies": [
+        "RD-CTX-002",
+        "RD-ASM-001"
+      ],
+      "acceptance_checks": [
+        "At least 15 functional safety requirements with explicit trigger/action outcomes.",
+        "Includes at least 5 hazards and corresponding required mitigations (e.g., motion hazards, high voltage, laser if applicable).",
+        "Defines safe-state behavior obligations across major subsystems without implementation specifics."
+      ]
+    },
+    {
+      "diagram_id": "RD-NF-001",
+      "type": "RD",
+      "title": "Performance NFR: Sensitivity & Angular Resolution (Optical/IR)",
+      "goal": "Define top-level performance non-functional requirements for sensitivity and angular resolution drivers.",
+      "dependencies": [
+        "RD-CTX-003"
+      ],
+      "acceptance_checks": [
+        "Contains measurable performance targets placeholders (units identified, TBD allowed).",
+        "Includes assumptions about observing bands/conditions as constraints or notes.",
+        "Links performance NFRs to at least 3 enabling functional requirement sets (phasing, tracking, AO optional)."
+      ]
+    },
+    {
+      "diagram_id": "RD-NF-002",
+      "type": "RD",
+      "title": "Performance NFR: Pointing/Tracking Stability & Jitter",
+      "goal": "Define stability/jitter-related NFRs supporting long exposures and image quality.",
+      "dependencies": [
+        "RD-F-003"
+      ],
+      "acceptance_checks": [
+        "Defines at least 8 NFRs with measurable criteria placeholders (frequency band, RMS, settling).",
+        "Captures environmental contributors (wind/thermal) as assumptions or influencing factors.",
+        "Ensures terminology consistency: stability vs accuracy vs repeatability."
+      ]
+    },
+    {
+      "diagram_id": "RD-NF-003",
+      "type": "RD",
+      "title": "Availability, Reliability & Maintainability (ARM) NFR Set",
+      "goal": "Define availability, reliability, maintainability targets aligned to scheduled observing time and operations.",
+      "dependencies": [
+        "RD-CTX-002",
+        "RD-F-006"
+      ],
+      "acceptance_checks": [
+        "Includes at least 12 NFRs covering availability, MTBF/MTTR placeholders, maintainability constraints, spares strategy assumptions.",
+        "Addresses maintainability for segment handling/replacement and instrument swap operations.",
+        "Defines availability measurement context (nightly operations window, downtime categories)."
+      ]
+    },
+    {
+      "diagram_id": "RD-NF-004",
+      "type": "RD",
+      "title": "Environmental NFR: Thermal, Wind, Dust, and Site Conditions",
+      "goal": "Capture environment-driven NFRs and operational constraints for performance and safety.",
+      "dependencies": [
+        "RD-ASM-001",
+        "RD-CTX-001"
+      ],
+      "acceptance_checks": [
+        "Defines at least 10 environment-related NFRs with measurable placeholders (temperature gradients, wind limits, cleanliness class).",
+        "Includes operational constraints for when observing must be paused/aborted.",
+        "Maps each environmental constraint to impacted functions (tracking, dome, phasing, instrument stability)."
+      ]
+    },
+    {
+      "diagram_id": "RD-NF-005",
+      "type": "RD",
+      "title": "Interface NFR: Timing, Latency, Synchronization",
+      "goal": "Define NFRs for system timing, synchronization, and latency critical to control loops and data integrity.",
+      "dependencies": [
+        "RD-F-006",
+        "RD-F-007"
+      ],
+      "acceptance_checks": [
+        "Defines at least 8 NFRs (clock sync, timestamp accuracy, command latency, telemetry rates).",
+        "Includes constraints for loop closure timing (phasing, guiding, AO if applicable) as placeholders.",
+        "States verification approach placeholders (time correlation tests, end-to-end latency measurement)."
+      ]
+    },
+    {
+      "diagram_id": "RD-NF-006",
+      "type": "RD",
+      "title": "Safety & Compliance NFR: Standards/Policies Alignment",
+      "goal": "Capture compliance-oriented NFRs (safety procedures, operational constraints, auditability) relevant to site and partners.",
+      "dependencies": [
+        "RD-F-008",
+        "RD-ASM-001"
+      ],
+      "acceptance_checks": [
+        "At least 10 compliance NFRs (training, access control, audit logs, safety certification hooks).",
+        "Includes explicit auditability and traceability requirements for safety events.",
+        "Does not hardcode specific local regulations unless stated as assumptions; uses placeholders if unknown."
+      ]
+    },
+    {
+      "diagram_id": "RD-IF-001",
+      "type": "RD",
+      "title": "External Interfaces Inventory (System Context I/O)",
+      "goal": "List and characterize external interfaces (power, network, environment, operators, instruments, archive) to seed interface requirements.",
+      "dependencies": [
+        "RD-CTX-001"
+      ],
+      "acceptance_checks": [
+        "At least 15 external interfaces with direction (in/out/bidirectional) and data/energy/material type.",
+        "Identifies criticality and safety relevance flags per interface.",
+        "Aligns interface names with later requirement statements."
+      ]
+    },
+    {
+      "diagram_id": "RD-IF-002",
+      "type": "RD",
+      "title": "Instrument Port Interface Requirements (Black-Box)",
+      "goal": "Define black-box interface requirements for instrument ports (mechanical, electrical, data, thermal, control).",
+      "dependencies": [
+        "RD-F-005",
+        "RD-IF-001"
+      ],
+      "acceptance_checks": [
+        "Defines at least 12 interface requirements grouped by service type (power/data/thermal/control/mechanical).",
+        "Includes service enable/disable, isolation, and safety interlock requirements.",
+        "Contains measurable placeholders (capacity, connector class, bandwidth, coolant flow) without committing to design."
+      ]
+    },
+    {
+      "diagram_id": "RD-IF-003",
+      "type": "RD",
+      "title": "Site Infrastructure Interface Requirements (Power/HVAC/Network/Facilities)",
+      "goal": "Define interface requirements between TMT and site infrastructure for safe, continuous operations.",
+      "dependencies": [
+        "RD-IF-001",
+        "RD-NF-004"
+      ],
+      "acceptance_checks": [
+        "At least 12 interface requirements covering power quality, backup behavior placeholders, network connectivity, HVAC exchanges.",
+        "Defines monitoring/telemetry obligations for infrastructure services.",
+        "Includes failover and controlled shutdown behavior requirements."
+      ]
+    },
+    {
+      "diagram_id": "RD-OPS-001",
+      "type": "RD",
+      "title": "Operational Modes & States Catalog",
+      "goal": "Define high-level operational modes/states (startup, standby, observing, calibration, maintenance, safe/park) as a basis for requirements.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-F-006"
+      ],
+      "acceptance_checks": [
+        "At least 10 modes/states with entry/exit criteria and allowed transitions described textually.",
+        "Identifies which subsystems must be enabled/disabled per mode (at black-box level).",
+        "Includes at least 3 degraded modes (e.g., partial instrument capability, limited tracking)."
+      ]
+    },
+    {
+      "diagram_id": "RD-OPS-002",
+      "type": "RD",
+      "title": "Representative Operational Scenarios Set (Primary + Alternates)",
+      "goal": "Capture scenario narratives that drive completeness: nominal observing and key exception paths.",
+      "dependencies": [
+        "RD-OPS-001",
+        "RD-F-002"
+      ],
+      "acceptance_checks": [
+        "Includes at least 8 scenarios: startup, slew, acquisition, phasing, AO optional, exposure loop, calibration, shutdown.",
+        "Includes at least 4 exception scenarios: weather abort, fault abort, instrument swap failure, interlock trip.",
+        "Each scenario references the relevant functional requirement set IDs by keyword alignment."
+      ]
+    },
+    {
+      "diagram_id": "RD-OPS-003",
+      "type": "RD",
+      "title": "Fault Response & Safe-State Requirements (Operational)",
+      "goal": "Define operational requirements for detection, annunciation, safe-state entry, recovery, and logging across fault classes.",
+      "dependencies": [
+        "RD-F-008",
+        "RD-OPS-002"
+      ],
+      "acceptance_checks": [
+        "At least 15 requirements organized by fault class (motion, thermal, power, network, sensor failure).",
+        "Defines safe-state objectives and required operator notifications for each class.",
+        "Specifies minimum logging/telemetry capture requirements during faults."
+      ]
+    },
+    {
+      "diagram_id": "RD-VER-001",
+      "type": "RD",
+      "title": "Verification Strategy & Evidence Types (RD-Level)",
+      "goal": "Define verification approach categories (analysis, test, inspection, demonstration) and evidence expectations for key requirement groups.",
+      "dependencies": [
+        "RD-NF-001",
+        "RD-NF-003",
+        "RD-F-003",
+        "RD-F-007",
+        "RD-F-008"
+      ],
+      "acceptance_checks": [
+        "Maps at least 30 requirements (or requirement groups) to a verification method placeholder.",
+        "Defines evidence artifacts list (test reports, logs, calibration records, analysis models).",
+        "Includes verification constraints for safety and data integrity requirements."
+      ]
+    },
+    {
+      "diagram_id": "RD-TR-001",
+      "type": "RD",
+      "title": "Traceability Backbone: Goals → Capabilities → Requirements",
+      "goal": "Create the RD traceability structure linking science goals to capabilities and to functional/NFR requirement sets.",
+      "dependencies": [
+        "RD-CTX-003",
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "At least 6 goals mapped to at least 10 capabilities mapped to at least 40 requirements (by group or individual).",
+        "No orphan goals or orphan capability nodes in the trace structure.",
+        "Consistent identifiers and naming across trace links."
+      ]
+    },
+    {
+      "diagram_id": "RD-TR-002",
+      "type": "RD",
+      "title": "Traceability Backbone: Requirements → Verification (Top-Level)",
+      "goal": "Define RD-level trace from requirement sets to verification strategy elements and evidence placeholders.",
+      "dependencies": [
+        "RD-VER-001",
+        "RD-TR-001"
+      ],
+      "acceptance_checks": [
+        "At least 40 requirements (or grouped requirements) trace to at least one verification method and one evidence placeholder.",
+        "Identifies high-risk requirements needing multiple verification methods (e.g., performance + safety).",
+        "Trace links are directionally consistent and non-duplicative."
+      ]
+    },
+    {
+      "diagram_id": "RD-PKG-001",
+      "type": "RD",
+      "title": "RD Package Structure & Naming Conventions",
+      "goal": "Define the SysML v2 package tree layout for requirements (NF/F/IF/OPS/VER/TR) to enforce model consistency and parsing stability.",
+      "dependencies": [
+        "RD-CTX-001"
+      ],
+      "acceptance_checks": [
+        "Defines a package tree with at least 6 top-level packages (Context, Functions, NFR, Interfaces, Ops, Verification/Trace).",
+        "Includes naming rules for requirement defs/usages and ID patterns (e.g., RD-F-###, RD-NF-###).",
+        "Can be parsed into a package tree without unresolved imports or duplicate names."
+      ]
+    },
+    {
+      "diagram_id": "BDD-SYS-001",
+      "type": "BDD",
+      "title": "TMT System-of-Interest White-Box Decomposition (Level 1)",
+      "goal": "Define the top-level TMT part decomposition into primary architectural modules (optics, structure/mount, enclosure/site, APS/WFS, AO, instruments, OCS/software, data, safety, O&M).",
+      "dependencies": [
+        "RD-CTX-001",
+        "RD-F-001",
+        "RD-IF-001",
+        "RD-PKG-001"
+      ],
+      "acceptance_checks": [
+        "Contains one package with a single TMT SoI part def and at least 10 top-level subsystem parts.",
+        "Subsystem names align with RD-F-001 black-box functions and RD-IF-001 external interfaces (no orphan external entities).",
+        "All parts use consistent naming convention and are placed under a BDD package structure compatible with RD-PKG-001."
+      ]
+    },
+    {
+      "diagram_id": "BDD-SYS-002",
+      "type": "BDD",
+      "title": "TMT System Boundary: External Entities ↔ Internal Subsystems Mapping (Structural)",
+      "goal": "Introduce structural placeholders for external entities and map them to the internal subsystem parts that own the interfaces, preparing for later IBD allocations.",
+      "dependencies": [
+        "BDD-SYS-001",
+        "RD-IF-001",
+        "RD-IF-003"
+      ],
+      "acceptance_checks": [
+        "Defines external entity part defs (e.g., PowerGrid, Site_Network_Backbone, Time_Frequency_Reference) and references internal subsystem parts from BDD-SYS-001.",
+        "Each external interface item from RD-IF-001 is mapped to exactly one owning internal subsystem (owner is explicit via comments/attributes/relationships).",
+        "No internal subsystem part is left without at least one external dependency or an explicit 'no external interface' note."
+      ]
+    },
+    {
+      "diagram_id": "BDD-OPT-001",
+      "type": "BDD",
+      "title": "Telescope Optical System Decomposition (Level 2)",
+      "goal": "Decompose the Telescope Optical System into major optical elements and supporting assemblies.",
+      "dependencies": [
+        "BDD-SYS-003"
+      ],
+      "acceptance_checks": [
+        "Clear decomposition of M1, M2, M3, and optical path.",
+        "Placeholder parts for optical path, baffles, and calibration elements."
+      ]
+    },
+    {
+      "diagram_id": "BDD-OPT-002",
+      "type": "BDD",
+      "title": "Primary Mirror (M1) Segmentation Structural Model",
+      "goal": "Model M1 as a segmented assembly with segment units, support cells, and segment-level metrology/actuation placeholders.",
+      "dependencies": [
+        "BDD-OPT-001"
+      ],
+      "acceptance_checks": [
+        "Defined segment units and support structure.",
+        "Segment-level metrology and actuation placeholders."
+      ]
+    },
+    {
+      "diagram_id": "BDD-OPT-003",
+      "type": "BDD",
+      "title": "M2 Active Optics Structural Model",
+      "goal": "Define the M2 assembly structure, including support, actuators, and metrology placeholders.",
+      "dependencies": [
+        "BDD-OPT-001"
+      ],
+      "acceptance_checks": [
+        "Defined M2 structure and actuation.",
+        "Metrology and active optics components included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-OPT-004",
+      "type": "BDD",
+      "title": "M3 Articulated/Tertiary Mirror Structural Model",
+      "goal": "Define M3 structure, including steering/articulation mechanisms and interfaces toward instrument feed paths.",
+      "dependencies": [
+        "BDD-OPT-001"
+      ],
+      "acceptance_checks": [
+        "Defined articulation mechanisms for M3.",
+        "Interfaces toward instrument feeds defined."
+      ]
+    },
+    {
+      "diagram_id": "BDD-APS-001",
+      "type": "BDD",
+      "title": "Alignment, Phasing & Wavefront Sensing (APS/WFS) Subsystem Decomposition",
+      "goal": "Define APS/WFS structural components (WFS sensors, metrology, segment phasing control elements, calibration units).",
+      "dependencies": [
+        "BDD-SYS-003",
+        "BDD-OPT-002"
+      ],
+      "acceptance_checks": [
+        "Defined WFS sensors and control elements.",
+        "Segment phasing control elements included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-APS-002",
+      "type": "BDD",
+      "title": "Wavefront Sensor Suite Structural Breakdown",
+      "goal": "Break down WFS into sensor types, optics, detector, readout/control electronics placeholders, and calibration path stubs.",
+      "dependencies": [
+        "BDD-APS-001"
+      ],
+      "acceptance_checks": [
+        "Clear breakdown of sensor types, optics, and electronics.",
+        "Calibration path placeholders included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-APS-003",
+      "type": "BDD",
+      "title": "Segment Actuation & Edge Sensing Structural Model",
+      "goal": "Define segment-level actuation and sensing assemblies as reusable part definitions for each M1 segment.",
+      "dependencies": [
+        "BDD-OPT-002",
+        "BDD-APS-001"
+      ],
+      "acceptance_checks": [
+        "Segment-level actuation and sensing assemblies defined.",
+        "Reusable part definitions for each segment included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-STR-001",
+      "type": "BDD",
+      "title": "Telescope Structure & Mount Decomposition (Level 2)",
+      "goal": "Model the structural/mount subsystem, including alt-az mount, bearings, drives, encoders, and vibration/thermal structural elements.",
+      "dependencies": [
+        "BDD-SYS-003"
+      ],
+      "acceptance_checks": [
+        "Alt-az mount, bearings, and drives defined.",
+        "Vibration and thermal structural elements included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-STR-002",
+      "type": "BDD",
+      "title": "Pointing & Tracking Control Hardware Structural Breakdown",
+      "goal": "Define the hardware/control element structure that supports pointing/tracking loops (controllers, sensors, actuators).",
+      "dependencies": [
+        "BDD-STR-001"
+      ],
+      "acceptance_checks": [
+        "Controllers, sensors, and actuators for pointing/tracking defined.",
+        "Clear separation of hardware and control elements."
+      ]
+    },
+    {
+      "diagram_id": "BDD-ENC-001",
+      "type": "BDD",
+      "title": "Enclosure/Dome System Decomposition (Level 2)",
+      "goal": "Define enclosure structural components: dome rotation, shutters/vents, wind screens, thermal management structures, service platforms.",
+      "dependencies": [
+        "BDD-SYS-003"
+      ],
+      "acceptance_checks": [
+        "Dome rotation and shutters defined.",
+        "Thermal management and service platforms included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-SITE-001",
+      "type": "BDD",
+      "title": "Site Infrastructure Subsystem Decomposition (Power/HVAC/Network/Facilities)",
+      "goal": "Model internal site infrastructure elements owned by TMT (UPS distribution, internal network, facility monitoring).",
+      "dependencies": [
+        "BDD-SYS-003"
+      ],
+      "acceptance_checks": [
+        "UPS distribution and internal network modeled.",
+        "Facility monitoring placeholders included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-SFT-001",
+      "type": "BDD",
+      "title": "Observatory Control System (OCS) Structural Decomposition (Software/Services)",
+      "goal": "Define OCS as a structural composition of sequencing, configuration, telemetry, alarms, operator UI, and authorization services.",
+      "dependencies": [
+        "BDD-SYS-003"
+      ],
+      "acceptance_checks": [
+        "Sequencing, configuration, telemetry, and alarms services defined.",
+        "Operator UI and authorization services included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-SFT-002",
+      "type": "BDD",
+      "title": "Command & Telemetry Backbone Structural Model",
+      "goal": "Define shared command and telemetry transport/abstraction parts that connect OCS to subsystems.",
+      "dependencies": [
+        "BDD-SFT-001"
+      ],
+      "acceptance_checks": [
+        "Command and telemetry transport defined.",
+        "Interfaces between OCS and subsystems included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-DATA-001",
+      "type": "BDD",
+      "title": "Data System Decomposition (Acquisition → Pipeline → Archive/Distribution)",
+      "goal": "Define data system structure: acquisition nodes, metadata services, pipeline compute, archive interfaces, distribution gateways.",
+      "dependencies": [
+        "BDD-SYS-003"
+      ],
+      "acceptance_checks": [
+        "Acquisition nodes and metadata services defined.",
+        "Pipeline compute and archive interfaces included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-DATA-002",
+      "type": "BDD",
+      "title": "Instrument Data Path Structural Allocation",
+      "goal": "Model how instruments structurally connect into the data acquisition chain.",
+      "dependencies": [
+        "BDD-DATA-001",
+        "BDD-INS-001"
+      ],
+      "acceptance_checks": [
+        "Clear instrument data path allocation.",
+        "Buffers, controllers, and metadata hooks defined."
+      ]
+    },
+    {
+      "diagram_id": "BDD-SAF-001",
+      "type": "BDD",
+      "title": "Safety & Interlocks Subsystem Decomposition",
+      "goal": "Define safety subsystem structure: interlock controller, E-stop chain, hazard detection sensors, access control.",
+      "dependencies": [
+        "BDD-SYS-003"
+      ],
+      "acceptance_checks": [
+        "Interlock controller and E-stop chain defined.",
+        "Hazard detection sensors and access control placeholders included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-SAF-002",
+      "type": "BDD",
+      "title": "Safe-State Architecture: System-Level Safety Control Partitioning",
+      "goal": "Partition safety responsibilities across subsystems (who can command a safe state, who must comply).",
+      "dependencies": [
+        "BDD-SAF-001",
+        "BDD-SFT-001"
+      ],
+      "acceptance_checks": [
+        "Safety responsibilities partitioned across subsystems.",
+        "Clear safe-state command and compliance definitions."
+      ]
+    },
+    {
+      "diagram_id": "BDD-OAM-001",
+      "type": "BDD",
+      "title": "Operations & Maintenance (O&M) Subsystem Decomposition",
+      "goal": "Define O&M structural elements: maintenance tools interfaces, segment handling, calibration tooling, diagnostic access.",
+      "dependencies": [
+        "BDD-SYS-003"
+      ],
+      "acceptance_checks": [
+        "Maintenance tools and segment handling interfaces defined.",
+        "Calibration tooling and diagnostic access placeholders included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-INS-001",
+      "type": "BDD",
+      "title": "Science Instruments Subsystem Decomposition (Abstract)",
+      "goal": "Define a generic instrument framework: instrument ports, instrument types, instrument control, calibration unit interface stubs.",
+      "dependencies": [
+        "BDD-SYS-003"
+      ],
+      "acceptance_checks": [
+        "Instrument ports and types defined.",
+        "Control and calibration unit interface placeholders included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-INS-002",
+      "type": "BDD",
+      "title": "Instrument Port Structural Model (Mechanical + Service Aggregation)",
+      "goal": "Model each instrument port as an aggregation of service bundles and mechanical interface placeholders.",
+      "dependencies": [
+        "BDD-INS-001"
+      ],
+      "acceptance_checks": [
+        "Clear model of mechanical and service aggregation for each instrument port.",
+        "Placeholder for future port refinement."
+      ]
+    },
+    {
+      "diagram_id": "BDD-AO-001",
+      "type": "BDD",
+      "title": "Adaptive Optics (AO) Subsystem Decomposition (Optional Scope)",
+      "goal": "Define AO structure including wavefront sensors, deformable mirrors, real-time controller, guide star acquisition placeholders.",
+      "dependencies": [
+        "BDD-SYS-003"
+      ],
+      "acceptance_checks": [
+        "Wavefront sensors and deformable mirrors defined.",
+        "AO real-time controller and guide star acquisition placeholders included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-AO-002",
+      "type": "BDD",
+      "title": "AO Real-Time Controller Structural Breakdown",
+      "goal": "Break down AO RTC into compute nodes, timing/sync distribution, telemetry, and control I/O placeholders.",
+      "dependencies": [
+        "BDD-AO-001",
+        "BDD-SFT-002"
+      ],
+      "acceptance_checks": [
+        "AO RTC compute nodes, timing, and telemetry defined.",
+        "Control I/O placeholders included."
+      ]
+    },
+    {
+      "diagram_id": "BDD-INT-001",
+      "type": "BDD",
+      "title": "Cross-Subsystem Integration Spine (Structural Allocation Map)",
+      "goal": "Create a structural integration view that groups subsystems by their participation in major black-box functions.",
+      "dependencies": [
+        "BDD-SYS-003",
+        "RD-F-001"
+      ],
+      "acceptance_checks": [
+        "Subsystem participation in black-box functions clearly mapped.",
+        "Integration spine structure defined."
+      ]
+    },
+    {
+      "diagram_id": "BDD-INT-002",
+      "type": "BDD",
+      "title": "Operational Mode Structural Enablement Matrix (Subsystem-Level)",
+      "goal": "Model which subsystems are enabled/disabled per operational mode using structural attributes.",
+      "dependencies": [
+        "BDD-SYS-003",
+        "RD-OPS-001"
+      ],
+      "acceptance_checks": [
+        "Subsystem enablement/disablement clearly mapped.",
+        "Operational mode matrix defined."
+      ]
+    },
+    {
+      "diagram_id": "BDD-PWR-001",
+      "type": "BDD",
+      "title": "Power Architecture Structural Model (Internal Distribution + Critical Loads)",
+      "goal": "Define internal power distribution structure and identify critical loads (mount, enclosure, computing, instruments).",
+      "dependencies": [
+        "BDD-SITE-001"
+      ],
+      "acceptance_checks": [
+        "Internal power distribution structure defined.",
+        "Critical loads and backup integration points mapped."
+      ]
+    },
+    {
+      "diagram_id": "BDD-NET-001",
+      "type": "BDD",
+      "title": "Networking & Time Distribution Structural Model (Internal Fabric)",
+      "goal": "Define internal network fabric and time distribution nodes across subsystems to support telemetry, command, and synchronized data stamping.",
+      "dependencies": [
+        "BDD-SITE-001",
+        "BDD-SFT-002"
+      ],
+      "acceptance_checks": [
+        "Internal network and time distribution nodes clearly defined.",
+        "Synchronization of data across subsystems prepared."
+      ]
+    },
+    {
+      "diagram_id": "BDD-THERM-001",
+      "type": "BDD",
+      "title": "Thermal Management Structural Model (Facility + Subsystem Thermal Interfaces)",
+      "goal": "Define thermal management elements (HVAC integration, cooling loops, heat exchangers) and which subsystems consume/provide thermal services.",
+      "dependencies": [
+        "BDD-ENC-001",
+        "BDD-SITE-001"
+      ],
+      "acceptance_checks": [
+        "Thermal management structure defined.",
+        "Subsystem thermal services mapped."
+      ]
+    },
+    {
+      "diagram_id": "BDD-SEC-001",
+      "type": "BDD",
+      "title": "Access Control & Authorization Structural Model (Operator/Service Roles)",
+      "goal": "Define structural components for authorization and access control across OCS, safety systems, and critical command paths.",
+      "dependencies": [
+        "BDD-SFT-001",
+        "BDD-SAF-001"
+      ],
+      "acceptance_checks": [
+        "Authorization and access control components clearly defined.",
+        "Roles and permissions across subsystems modeled."
+      ]
+    },
+    {
+      "diagram_id": "BDD-LOG-001",
+      "type": "BDD",
+      "title": "Observatory Logging, Audit, and Evidence Artifact Structural Model",
+      "goal": "Define structural entities for logging/audit/evidence capture that support verification and compliance without yet specifying behaviors.",
+      "dependencies": [
+        "BDD-SFT-001",
+        "BDD-SAF-001",
+        "RD-VER-001",
+        "RD-NF-006"
+      ],
+      "acceptance_checks": [
+        "Defines LogStorePlaceholder, AuditLog, SafetyEventRecord, EvidenceArtifact placeholders consistent with RD-NF-006 terminology.",
+        "Includes a mapping attribute from requirementID to evidenceType aligned to RD-VER-001.",
+        "Shows structural links indicating which subsystems publish logs/events (at least OCS, Safety, Data System)."
+      ]
+    },
+    {
+      "diagram_id": "BDD-VER-001",
+      "type": "BDD",
+      "title": "Verification-Ready Structural Tagging (Design Elements ↔ Verification Hooks)",
+      "goal": "Tag key structural parts with verification hook placeholders to prepare for requirement-to-design-to-verification trace in later phases.",
+      "dependencies": [
+        "BDD-SYS-001",
+        "RD-TR-002",
+        "RD-VER-001"
+      ],
+      "acceptance_checks": [
+        "Includes a VerificationHook stereotype/attribute placeholder applied to at least 15 parts across subsystems.",
+        "Each tagged part records at least one associatedRequirement ID consistent with RD-TR-002 style (string IDs allowed).",
+        "Includes a consistency check placeholder ensuring every high-risk requirement has at least one structural hook."
+      ]
+    },
+    {
+      "diagram_id": "BDD-GLOSS-001",
+      "type": "BDD",
+      "title": "Core Type Library for BDD: Common Part/Attribute Definitions (TMT Domain)",
+      "goal": "Define reusable abstract part defs and attribute defs used across BDDs (e.g., Subsystem, Controller, Sensor, Actuator, Capacity fields).",
+      "dependencies": [
+        "RD-PKG-001",
+        "RD-NF-005",
+        "RD-IF-002"
+      ],
+      "acceptance_checks": [
+        "Defines at least 8 abstract part defs (Subsystem, MechanicalAssembly, Controller, Sensor, Actuator, ServiceBundle, InterfacePlaceholder, ComputeNode).",
+        "Defines at least 10 attribute defs for capacities and timing (powerCapacity, dataBandwidth, thermalCapacity, latency, updateRate, availabilityTarget).",
+        "All BDD items can reference these types without introducing inconsistent duplicate defs (naming and package path are stable)."
+      ]
+    },
+    {
+      "diagram_id": "BDD-SYS-003",
+      "type": "BDD",
+      "title": "TMT System Decomposition (Level 2)",
+      "goal": "Define TMT system-level decomposition into primary architectural components and major subsystems.",
+      "dependencies": [],
+      "acceptance_checks": [
+        "Includes primary architectural components (optics, mount, enclosure, APS, AO, OCS, data, safety, O&M)",
+        "Clear structural breakdown of major subsystems."
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB01-001",
+      "type": "BDD",
+      "title": "BDD SUB01: Telescope Optical System (M1 segments, M2, M3, optical path, phasing)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Telescope Optical System (M1 segments, M2, M3, optical path, phasing).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB02-001",
+      "type": "BDD",
+      "title": "BDD SUB02: Mount/Structure (alt-az, drives, encoders, vibration)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Mount/Structure (alt-az, drives, encoders, vibration).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB03-001",
+      "type": "BDD",
+      "title": "BDD SUB03: Enclosure/Dome & Site Infrastructure (power, HVAC, networking)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Enclosure/Dome & Site Infrastructure (power, HVAC, networking).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB04-001",
+      "type": "BDD",
+      "title": "BDD SUB04: Alignment & Phasing System (APS, WFS, segment actuators)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Alignment & Phasing System (APS, WFS, segment actuators).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB05-001",
+      "type": "BDD",
+      "title": "BDD SUB05: Adaptive Optics (optional: acquisition, loop closure, RTC)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Adaptive Optics (optional: acquisition, loop closure, RTC).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB06-001",
+      "type": "BDD",
+      "title": "BDD SUB06: Instruments (ports, selection, calibration units)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Instruments (ports, selection, calibration units).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB07-001",
+      "type": "BDD",
+      "title": "BDD SUB07: Observatory Control System (sequencer, config, telemetry, alarms)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Observatory Control System (sequencer, config, telemetry, alarms).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB08-001",
+      "type": "BDD",
+      "title": "BDD SUB08: Data System (acquisition, metadata, pipeline, archive)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Data System (acquisition, metadata, pipeline, archive).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB09-001",
+      "type": "BDD",
+      "title": "BDD SUB09: Safety (interlocks, emergency stop, operational constraints)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Safety (interlocks, emergency stop, operational constraints).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB10-001",
+      "type": "BDD",
+      "title": "BDD SUB10: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB01-002",
+      "type": "BDD",
+      "title": "BDD SUB01: Telescope Optical System (M1 segments, M2, M3, optical path, phasing)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Telescope Optical System (M1 segments, M2, M3, optical path, phasing).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB02-002",
+      "type": "BDD",
+      "title": "BDD SUB02: Mount/Structure (alt-az, drives, encoders, vibration)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Mount/Structure (alt-az, drives, encoders, vibration).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB03-002",
+      "type": "BDD",
+      "title": "BDD SUB03: Enclosure/Dome & Site Infrastructure (power, HVAC, networking)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Enclosure/Dome & Site Infrastructure (power, HVAC, networking).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB04-002",
+      "type": "BDD",
+      "title": "BDD SUB04: Alignment & Phasing System (APS, WFS, segment actuators)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Alignment & Phasing System (APS, WFS, segment actuators).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB05-002",
+      "type": "BDD",
+      "title": "BDD SUB05: Adaptive Optics (optional: acquisition, loop closure, RTC)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Adaptive Optics (optional: acquisition, loop closure, RTC).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB06-002",
+      "type": "BDD",
+      "title": "BDD SUB06: Instruments (ports, selection, calibration units)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Instruments (ports, selection, calibration units).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB07-002",
+      "type": "BDD",
+      "title": "BDD SUB07: Observatory Control System (sequencer, config, telemetry, alarms)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Observatory Control System (sequencer, config, telemetry, alarms).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB08-002",
+      "type": "BDD",
+      "title": "BDD SUB08: Data System (acquisition, metadata, pipeline, archive)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Data System (acquisition, metadata, pipeline, archive).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB09-002",
+      "type": "BDD",
+      "title": "BDD SUB09: Safety (interlocks, emergency stop, operational constraints)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Safety (interlocks, emergency stop, operational constraints).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB10-002",
+      "type": "BDD",
+      "title": "BDD SUB10: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB01-003",
+      "type": "BDD",
+      "title": "BDD SUB01: Telescope Optical System (M1 segments, M2, M3, optical path, phasing)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Telescope Optical System (M1 segments, M2, M3, optical path, phasing).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB02-003",
+      "type": "BDD",
+      "title": "BDD SUB02: Mount/Structure (alt-az, drives, encoders, vibration)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Mount/Structure (alt-az, drives, encoders, vibration).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB03-003",
+      "type": "BDD",
+      "title": "BDD SUB03: Enclosure/Dome & Site Infrastructure (power, HVAC, networking)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Enclosure/Dome & Site Infrastructure (power, HVAC, networking).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB04-003",
+      "type": "BDD",
+      "title": "BDD SUB04: Alignment & Phasing System (APS, WFS, segment actuators)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Alignment & Phasing System (APS, WFS, segment actuators).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB05-003",
+      "type": "BDD",
+      "title": "BDD SUB05: Adaptive Optics (optional: acquisition, loop closure, RTC)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Adaptive Optics (optional: acquisition, loop closure, RTC).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB06-003",
+      "type": "BDD",
+      "title": "BDD SUB06: Instruments (ports, selection, calibration units)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Instruments (ports, selection, calibration units).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB07-003",
+      "type": "BDD",
+      "title": "BDD SUB07: Observatory Control System (sequencer, config, telemetry, alarms)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Observatory Control System (sequencer, config, telemetry, alarms).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB08-003",
+      "type": "BDD",
+      "title": "BDD SUB08: Data System (acquisition, metadata, pipeline, archive)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Data System (acquisition, metadata, pipeline, archive).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB09-003",
+      "type": "BDD",
+      "title": "BDD SUB09: Safety (interlocks, emergency stop, operational constraints)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Safety (interlocks, emergency stop, operational constraints).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "BDD-SUB10-003",
+      "type": "BDD",
+      "title": "BDD SUB10: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes)",
+      "goal": "Define the structural decomposition (parts/attributes/interfaces) of Thirty Meter Telescope (TMT, 三十米望远镜) for subsystem: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes).",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + part definitions",
+        "Includes key interfaces/ports or connections",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-001",
+      "type": "IBD",
+      "title": "IBD ROOT: TMT System-of-Systems Internal Interfaces Overview",
+      "goal": "Establish the top-level internal interface map among major TMT subsystems (Optics, Mount, Enclosure/Site, APS, AO, Instruments, Data, Safety, Ops/Maint).",
+      "dependencies": [
+        "RD-CTX-001",
+        "RD-IF-001",
+        "BDD-SUB01-003",
+        "BDD-SUB02-003",
+        "BDD-SUB03-003",
+        "BDD-SUB04-001",
+        "BDD-SUB05-002",
+        "BDD-SUB06-002",
+        "BDD-SUB08-002",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001"
+      ],
+      "acceptance_checks": [
+        "Contains a single system-level part usage representing TMT and at least 9 subsystem parts",
+        "Defines or uses ports consistent with BDD port names (cmd/tlm/timeSync/pwr/net/optical/metrology/safety)",
+        "Shows at least 15 connectors across command/telemetry/time/power/data/optical categories",
+        "No dangling connectors; every connector terminates at a port or feature"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-002",
+      "type": "IBD",
+      "title": "IBD ROOT: Time & Frequency Synchronization Backbone",
+      "goal": "Model internal time distribution and synchronization paths (time reference intake, OCS distribution, timestamping, loop timing).",
+      "dependencies": [
+        "RD-NF-005",
+        "RD-IF-001",
+        "BDD-SUB03-003",
+        "BDD-SUB04-001",
+        "BDD-SUB05-002",
+        "BDD-SUB08-002",
+        "IBD-ROOT-001"
+      ],
+      "acceptance_checks": [
+        "Includes a TimeSync source part and at least 6 consuming parts (APS, AO, Data, OCS/Ops, Mount, Instruments)",
+        "Captures directionality (in/out/inout) for time signals or timestamp features",
+        "Includes constraints or notes mapping to clockSyncAccuracy/timestampAccuracy/latency requirements",
+        "Connector naming distinguishes 'timeSync' vs 'timestamp' vs 'trigger' paths"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-003",
+      "type": "IBD",
+      "title": "IBD ROOT: Command & Authorization Path (Operator → OCS → Subsystems)",
+      "goal": "Define the internal command routing including authorization gates and safety interlocks influence on command enablement.",
+      "dependencies": [
+        "RD-F-006",
+        "RD-F-008",
+        "RD-OPS-003",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001",
+        "IBD-ROOT-001"
+      ],
+      "acceptance_checks": [
+        "Shows operator command ingress and OCS/ops sequencer command fan-out",
+        "Includes at least one authorization/control point and a safety inhibit influence connector",
+        "Separates operational commands vs safety commands (distinct ports/features)",
+        "At least 8 command connectors with consistent naming and direction"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-004",
+      "type": "IBD",
+      "title": "IBD ROOT: Telemetry, Health, and Alarm Distribution",
+      "goal": "Model telemetry publishing, health status aggregation, and alarm annunciation flows across subsystems.",
+      "dependencies": [
+        "RD-F-006",
+        "RD-F-008",
+        "RD-OPS-003",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001",
+        "BDD-SUB08-002",
+        "IBD-ROOT-001"
+      ],
+      "acceptance_checks": [
+        "Includes a telemetry aggregator/logger part and alarm annunciator part (or equivalent)",
+        "At least 10 telemetry connectors and 3 alarm connectors",
+        "Shows safety event logging linkage to compliance/audit logging concept",
+        "No mixed-direction ambiguity: telemetry flows are out from producers and in to aggregators"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-005",
+      "type": "IBD",
+      "title": "IBD ROOT: Power Distribution and Backup Behavior Internal Links",
+      "goal": "Capture internal power feeds from facility to subsystems including UPS/generator interfaces and controlled shutdown triggers.",
+      "dependencies": [
+        "RD-IF-003",
+        "RD-IF-001",
+        "RD-OPS-003",
+        "BDD-SUB03-003",
+        "BDD-SUB09-001",
+        "IBD-ROOT-001"
+      ],
+      "acceptance_checks": [
+        "Includes facility power feed part and at least 6 consuming subsystems",
+        "Models at least one backup/failover trigger path and one controlled shutdown command path",
+        "Distinguishes power vs control signals using separate ports/features",
+        "Connectors reflect power directionality (source out to sink in)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB01-001",
+      "type": "IBD",
+      "title": "IBD SUB01: Telescope Optical System (M1 segments, M2, M3, optical path, phasing) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Telescope Optical System (M1 segments, M2, M3, optical path, phasing).",
+      "dependencies": [
+        "BDD-SUB01-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB01-002",
+      "type": "IBD",
+      "title": "IBD SUB01: Telescope Optical System (M1 segments, M2, M3, optical path, phasing) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Telescope Optical System (M1 segments, M2, M3, optical path, phasing).",
+      "dependencies": [
+        "BDD-SUB01-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB01-003",
+      "type": "IBD",
+      "title": "IBD SUB01: Telescope Optical System (M1 segments, M2, M3, optical path, phasing) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Telescope Optical System (M1 segments, M2, M3, optical path, phasing).",
+      "dependencies": [
+        "BDD-SUB01-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB01-004",
+      "type": "IBD",
+      "title": "IBD SUB01: Optics Control and Telemetry Links to OCS",
+      "goal": "Define command/telemetry/control links between telescope optical system controllers and OCS/ops sequencer.",
+      "dependencies": [
+        "BDD-SUB01-003",
+        "BDD-SUB10-001",
+        "RD-F-006",
+        "IBD-ROOT-003",
+        "IBD-ROOT-004"
+      ],
+      "acceptance_checks": [
+        "Includes controlPort/cmdIn and telemetryPort/tlmOut wiring",
+        "At least 6 connectors covering cmd, status, telemetry, time sync",
+        "Connector naming separates 'control' from 'metrology' from 'beam'",
+        "All ports referenced exist in the related BDD definitions or are defined locally"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB02-001",
+      "type": "IBD",
+      "title": "IBD SUB02: Mount/Structure (alt-az, drives, encoders, vibration) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Mount/Structure (alt-az, drives, encoders, vibration).",
+      "dependencies": [
+        "BDD-SUB02-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB02-002",
+      "type": "IBD",
+      "title": "IBD SUB02: Mount/Structure (alt-az, drives, encoders, vibration) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Mount/Structure (alt-az, drives, encoders, vibration).",
+      "dependencies": [
+        "BDD-SUB02-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB02-003",
+      "type": "IBD",
+      "title": "IBD SUB02: Mount/Structure (alt-az, drives, encoders, vibration) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Mount/Structure (alt-az, drives, encoders, vibration).",
+      "dependencies": [
+        "BDD-SUB02-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB03-001",
+      "type": "IBD",
+      "title": "IBD SUB03: Enclosure/Dome & Site Infrastructure (power, HVAC, networking) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Enclosure/Dome & Site Infrastructure (power, HVAC, networking).",
+      "dependencies": [
+        "BDD-SUB03-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB03-002",
+      "type": "IBD",
+      "title": "IBD SUB03: Enclosure/Dome & Site Infrastructure (power, HVAC, networking) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Enclosure/Dome & Site Infrastructure (power, HVAC, networking).",
+      "dependencies": [
+        "BDD-SUB03-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB03-003",
+      "type": "IBD",
+      "title": "IBD SUB03: Enclosure/Dome & Site Infrastructure (power, HVAC, networking) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Enclosure/Dome & Site Infrastructure (power, HVAC, networking).",
+      "dependencies": [
+        "BDD-SUB03-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB04-001",
+      "type": "IBD",
+      "title": "IBD SUB04: Alignment & Phasing System (APS, WFS, segment actuators) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Alignment & Phasing System (APS, WFS, segment actuators).",
+      "dependencies": [
+        "BDD-SUB04-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB04-002",
+      "type": "IBD",
+      "title": "IBD SUB04: Alignment & Phasing System (APS, WFS, segment actuators) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Alignment & Phasing System (APS, WFS, segment actuators).",
+      "dependencies": [
+        "BDD-SUB04-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB04-003",
+      "type": "IBD",
+      "title": "IBD SUB04: Alignment & Phasing System (APS, WFS, segment actuators) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Alignment & Phasing System (APS, WFS, segment actuators).",
+      "dependencies": [
+        "BDD-SUB04-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB04-004",
+      "type": "IBD",
+      "title": "IBD SUB04: APS ↔ Safety Interlock Integration (Motion/Laser/Access)",
+      "goal": "Define how safety inhibits or interlocks constrain APS actuation and phasing operations.",
+      "dependencies": [
+        "BDD-SUB04-001",
+        "BDD-SUB09-001",
+        "RD-F-008",
+        "RD-OPS-003",
+        "IBD-ROOT-003"
+      ],
+      "acceptance_checks": [
+        "Shows safety inhibit connector(s) into APS controller",
+        "Includes at least 2 interlock classes (motion inhibit, access interlock, HV/laser as applicable)",
+        "Models safe-state transition influence on APS command enable",
+        "No direct actuator bypass around safety inhibit is modeled"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB05-001",
+      "type": "IBD",
+      "title": "IBD SUB05: Adaptive Optics (optional: acquisition, loop closure, RTC) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Adaptive Optics (optional: acquisition, loop closure, RTC).",
+      "dependencies": [
+        "BDD-SUB05-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB05-002",
+      "type": "IBD",
+      "title": "IBD SUB05: Adaptive Optics (optional: acquisition, loop closure, RTC) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Adaptive Optics (optional: acquisition, loop closure, RTC).",
+      "dependencies": [
+        "BDD-SUB05-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB05-003",
+      "type": "IBD",
+      "title": "IBD SUB05: Adaptive Optics (optional: acquisition, loop closure, RTC) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Adaptive Optics (optional: acquisition, loop closure, RTC).",
+      "dependencies": [
+        "BDD-SUB05-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB06-001",
+      "type": "IBD",
+      "title": "IBD SUB06: Instruments (ports, selection, calibration units) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Instruments (ports, selection, calibration units).",
+      "dependencies": [
+        "BDD-SUB06-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB06-002",
+      "type": "IBD",
+      "title": "IBD SUB06: Instruments (ports, selection, calibration units) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Instruments (ports, selection, calibration units).",
+      "dependencies": [
+        "BDD-SUB06-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB06-003",
+      "type": "IBD",
+      "title": "IBD SUB06: Instruments (ports, selection, calibration units) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Instruments (ports, selection, calibration units).",
+      "dependencies": [
+        "BDD-SUB06-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB08-001",
+      "type": "IBD",
+      "title": "IBD SUB08: Data System (acquisition, metadata, pipeline, archive) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Data System (acquisition, metadata, pipeline, archive).",
+      "dependencies": [
+        "BDD-SUB08-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB08-002",
+      "type": "IBD",
+      "title": "IBD SUB08: Data System (acquisition, metadata, pipeline, archive) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Data System (acquisition, metadata, pipeline, archive).",
+      "dependencies": [
+        "BDD-SUB08-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB08-003",
+      "type": "IBD",
+      "title": "IBD SUB08: Data System (acquisition, metadata, pipeline, archive) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Data System (acquisition, metadata, pipeline, archive).",
+      "dependencies": [
+        "BDD-SUB08-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB09-001",
+      "type": "IBD",
+      "title": "IBD SUB09: Safety (interlocks, emergency stop, operational constraints) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Safety (interlocks, emergency stop, operational constraints).",
+      "dependencies": [
+        "BDD-SUB09-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB09-002",
+      "type": "IBD",
+      "title": "IBD SUB09: Safety (interlocks, emergency stop, operational constraints) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Safety (interlocks, emergency stop, operational constraints).",
+      "dependencies": [
+        "BDD-SUB09-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB09-003",
+      "type": "IBD",
+      "title": "IBD SUB09: Safety (interlocks, emergency stop, operational constraints) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Safety (interlocks, emergency stop, operational constraints).",
+      "dependencies": [
+        "BDD-SUB09-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB10-001",
+      "type": "IBD",
+      "title": "IBD SUB10: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes).",
+      "dependencies": [
+        "BDD-SUB10-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB10-002",
+      "type": "IBD",
+      "title": "IBD SUB10: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes).",
+      "dependencies": [
+        "BDD-SUB10-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-OPS-001",
+      "type": "IBD",
+      "title": "IBD OPS: Observation Sequencing Wiring (OCS ↔ Subsystems) Nominal",
+      "goal": "Model the nominal observation sequencing control wiring across major subsystems for the lifecycle.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-F-006",
+        "IBD-ROOT-003",
+        "IBD-ROOT-004",
+        "IBD-SUB01-004",
+        "IBD-SUB05-002",
+        "IBD-SUB06-001",
+        "IBD-SUB08-003"
+      ],
+      "acceptance_checks": [
+        "Includes OCS/sequencer part and at least 7 subsystem participants",
+        "At least 12 connectors spanning cmd, status, telemetry, time sync",
+        "Connectors map clearly to lifecycle phases (startup, slew, acquire, phasing, expose, calibrate, shutdown) via naming or notes",
+        "No telemetry path is modeled as a command path"
+      ]
+    },
+    {
+      "diagram_id": "IBD-OPS-002",
+      "type": "IBD",
+      "title": "IBD OPS: Weather Abort Trigger Wiring",
+      "goal": "Represent the wiring from environmental sensors/constraints to OCS abort decision and safe-state actions.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-OPS-003",
+        "IBD-SUB03-002",
+        "IBD-SUB09-003",
+        "IBD-SUB10-002"
+      ],
+      "acceptance_checks": [
+        "Includes env trigger sources and OCS abort consumer",
+        "Shows safe-state actuation outputs for at least 3 subsystems",
+        "Includes alarm/notification flow to operator interfaces",
+        "Abort trigger thresholds are explicit (attributes/constraints)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-OPS-003",
+      "type": "IBD",
+      "title": "IBD OPS: Fault Abort Trigger Wiring (Power/Network/Motion)",
+      "goal": "Model wiring of fault conditions leading to abort and safe-state behavior across fault classes.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-OPS-003",
+        "IBD-ROOT-005",
+        "IBD-SUB03-001",
+        "IBD-SUB09-001",
+        "IBD-SUB10-002"
+      ],
+      "acceptance_checks": [
+        "Includes at least 3 fault sources (power, network, motion) and OCS/ops consumers",
+        "Shows safe-state outputs and annunciation outputs distinctly",
+        "Includes logging connector to audit/telemetry system",
+        "No fault path omits a recovery or acknowledgement feature reference"
+      ]
+    },
+    {
+      "diagram_id": "IBD-IF-INT-001",
+      "type": "IBD",
+      "title": "IBD Internal IF: Optical System ↔ APS Interface Bundle",
+      "goal": "Define the internal interface contract between optics and APS: metrology, wavefront, commands, timing, safety gates.",
+      "dependencies": [
+        "BDD-SUB01-003",
+        "BDD-SUB04-001",
+        "RD-F-004",
+        "RD-NF-005",
+        "IBD-SUB01-002",
+        "IBD-SUB04-001"
+      ],
+      "acceptance_checks": [
+        "Shows a single interface bundle abstraction (or package) grouping the key flows",
+        "At least 8 connectors spanning metrology/wavefront/cmd/health/time/safety",
+        "Flow naming aligns with SegmentPoseError/ActuatorCommand/WfsFrame concepts",
+        "No connector crosses unrelated domains (e.g., cooling in this bundle)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-IF-INT-002",
+      "type": "IBD",
+      "title": "IBD Internal IF: Mount ↔ OCS Closed-Loop Pointing Interface",
+      "goal": "Model the mount control interface contract with OCS/pointing model updates and guidance feedback.",
+      "dependencies": [
+        "BDD-SUB02-003",
+        "RD-F-003",
+        "RD-NF-002",
+        "IBD-ROOT-003",
+        "IBD-ROOT-004"
+      ],
+      "acceptance_checks": [
+        "Includes pointing command inputs and mount status/telemetry outputs",
+        "At least 6 connectors including time sync and guidance sensor inputs",
+        "Captures rate update latency and bandwidth considerations (note/constraint)",
+        "Separates high-rate control loop signals from low-rate configuration updates"
+      ]
+    },
+    {
+      "diagram_id": "IBD-IF-INT-003",
+      "type": "IBD",
+      "title": "IBD Internal IF: Instruments ↔ Data System (Raw/Cal/Metadata)",
+      "goal": "Define internal data interface contract between instrument subsystem and data system services.",
+      "dependencies": [
+        "BDD-SUB06-002",
+        "BDD-SUB08-002",
+        "RD-F-007",
+        "IBD-SUB08-001",
+        "IBD-SUB08-002"
+      ],
+      "acceptance_checks": [
+        "Includes rawOut/calOut/metadata flows (or equivalents) across well-defined ports",
+        "At least 7 connectors including integrity check and acknowledgement capability",
+        "Metadata completeness and schema version are represented",
+        "No data connector is left without a consumer/producer endpoint"
+      ]
+    },
+    {
+      "diagram_id": "IBD-IF-INT-004",
+      "type": "IBD",
+      "title": "IBD Internal IF: Safety Inhibit Distribution to Motion-Capable Subsystems",
+      "goal": "Model how safety inhibit signals are distributed and consumed by mount, optics actuators, enclosure mechanisms, and AO components.",
+      "dependencies": [
+        "BDD-SUB09-001",
+        "RD-F-008",
+        "IBD-SUB09-001",
+        "IBD-ROOT-001"
+      ],
+      "acceptance_checks": [
+        "Includes inhibitOut fan-out from SafetySubsystem to at least 4 consuming subsystems",
+        "Models inhibit semantics as discrete IO or command gating (explicit)",
+        "Includes alarm annunciation and trip feedback back to OCS/ops",
+        "No consumer is connected without a defined inhibit input port/feature"
+      ]
+    },
+    {
+      "diagram_id": "IBD-IBD-PROFILE-001",
+      "type": "IBD",
+      "title": "IBD Cross-Cut: Data Integrity & Retry/Ack Wiring Pattern",
+      "goal": "Provide a reusable internal wiring pattern for push/pull, ack, retry behaviors across key data interfaces.",
+      "dependencies": [
+        "RD-F-007",
+        "IBD-SUB08-001",
+        "IBD-IF-INT-003"
+      ],
+      "acceptance_checks": [
+        "Defines a clear pattern with ack and retry paths (at least 2 connectors each)",
+        "Can be instantiated on at least one concrete interface in the model (reference shown)",
+        "Includes checksum/digest or end-to-end verification hook",
+        "Avoids mixing command authorization with data transport ack semantics"
+      ]
+    },
+    {
+      "diagram_id": "IBD-IBD-PROFILE-002",
+      "type": "IBD",
+      "title": "IBD Cross-Cut: Health Status Aggregation Pattern",
+      "goal": "Create a consistent internal pattern for subsystem health/status reporting to ops and safety.",
+      "dependencies": [
+        "RD-F-006",
+        "RD-OPS-003",
+        "IBD-ROOT-004"
+      ],
+      "acceptance_checks": [
+        "Defines HealthStatus item/attribute usage consistently across at least 5 subsystems",
+        "Includes at least one escalation path from health degrade to alarm",
+        "Shows how health feeds mode controller decisions (optional connector)",
+        "Connector naming standard distinguishes health vs telemetry vs alarms"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB03-004",
+      "type": "IBD",
+      "title": "IBD SUB03: Enclosure Mechanisms ↔ Safety and Ops (Shutters/Rotation/Wind Screens)",
+      "goal": "Model internal connectors for enclosure mechanisms control, safety interlocks, and operational constraints.",
+      "dependencies": [
+        "BDD-SUB03-003",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001",
+        "RD-F-008",
+        "RD-NF-004"
+      ],
+      "acceptance_checks": [
+        "Includes enclosure mechanism actuator/control parts and safety interlock inputs",
+        "At least 6 connectors: cmd, position/status, safety inhibit, env constraint, telemetry, power",
+        "Wind/thermal constraints influence is explicitly represented",
+        "No motion command is modeled without a corresponding inhibit gate input"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB01-005",
+      "type": "IBD",
+      "title": "IBD SUB01: Optical Configuration Control (Mechanisms/States) Wiring",
+      "goal": "Represent internal wiring for optical path configuration mechanisms and their state reporting.",
+      "dependencies": [
+        "BDD-SUB01-003",
+        "RD-F-006",
+        "RD-F-001",
+        "IBD-ROOT-003",
+        "IBD-ROOT-004"
+      ],
+      "acceptance_checks": [
+        "Includes at least 2 configuration mechanism parts and one controller part",
+        "At least 6 connectors including cmd, status, telemetry, time sync",
+        "Includes a configuration state attribute and a consistency check note",
+        "Connector naming distinguishes config commands from tracking commands"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB02-004",
+      "type": "IBD",
+      "title": "IBD SUB02: Guidance Sensor Input Integration (Rates/Latency)",
+      "goal": "Model how guidance sensor inputs are integrated into mount control including update rate and latency constraints.",
+      "dependencies": [
+        "BDD-SUB02-003",
+        "RD-F-003",
+        "RD-NF-005",
+        "IBD-IF-INT-002"
+      ],
+      "acceptance_checks": [
+        "Includes guidance sensor source and mount controller consumer",
+        "At least 3 connectors: sensor data, time sync, status/health",
+        "Includes sensorUpdateRateHz and guideLoopLatency constraints as notes/attributes",
+        "No sensor input is modeled without a timestamp or time reference"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB04-005",
+      "type": "IBD",
+      "title": "IBD SUB04: Phasing Loop Stability and Recovery Signaling",
+      "goal": "Represent internal signals used to manage phasing loop stability, disturbance detection, and recovery.",
+      "dependencies": [
+        "BDD-SUB04-001",
+        "RD-F-004",
+        "RD-OPS-003",
+        "IBD-SUB04-001",
+        "IBD-SUB04-003"
+      ],
+      "acceptance_checks": [
+        "Includes loop stability/status outputs and recovery mode commands",
+        "At least 5 connectors: stability metric, disturbance detect, recovery cmd, ack, telemetry",
+        "Includes recoveryTime and loopStability references (constraint/note)",
+        "Recovery signaling is distinct from safety trip handling"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB05-004",
+      "type": "IBD",
+      "title": "IBD SUB05: AO Telemetry & Performance Metrics to Data/OCS",
+      "goal": "Model AO performance telemetry (residual WFE, Strehl, loop rate) to OCS and Data System for provenance.",
+      "dependencies": [
+        "BDD-SUB05-002",
+        "BDD-SUB08-002",
+        "RD-NF-001",
+        "RD-F-007",
+        "IBD-ROOT-004",
+        "IBD-SUB08-002"
+      ],
+      "acceptance_checks": [
+        "Includes AO telemetry outputs and Data/OCS consumers",
+        "At least 5 connectors including metrics and timestamps",
+        "Metrics include residualWFE_nm and strehlRatio (or equivalent attributes)",
+        "Provenance linkage is explicit (telemetry feeds metadata/provenance)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB06-004",
+      "type": "IBD",
+      "title": "IBD SUB06: Instrument Health/Interlock Isolation Wiring",
+      "goal": "Capture instrument isolation, safe shutdown, and interlock status wiring between instruments and safety/ops.",
+      "dependencies": [
+        "BDD-SUB06-002",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001",
+        "RD-F-005",
+        "RD-F-008"
+      ],
+      "acceptance_checks": [
+        "Includes isolation control feature and isolation status feedback",
+        "At least 6 connectors: isolation cmd, interlock status, health, alarm, power, telemetry",
+        "Shows safe isolation interaction with safety PLC or ops controller",
+        "No instrument power feed is modeled without an isolation or inhibit control dependency"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB08-004",
+      "type": "IBD",
+      "title": "IBD SUB08: Archive/Distribution Staging Internal Wiring",
+      "goal": "Model internal staging from pipeline outputs to archive interfaces and partner distribution endpoints (internal side).",
+      "dependencies": [
+        "BDD-SUB08-002",
+        "RD-F-007",
+        "RD-IF-001",
+        "IBD-SUB08-001"
+      ],
+      "acceptance_checks": [
+        "Includes pipeline compute component, staging store, and archive interface component",
+        "At least 6 connectors including data product flow and integrity verification",
+        "Models delivery mode support (push/pull) as notes/attributes",
+        "No external endpoint details beyond internal interface boundary assumptions"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SEC-001",
+      "type": "IBD",
+      "title": "IBD Cross-Cut: Audit Log and Safety Event Record Wiring",
+      "goal": "Define internal connections that generate and persist audit logs and safety event records for compliance evidence.",
+      "dependencies": [
+        "RD-NF-006",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001",
+        "IBD-ROOT-004"
+      ],
+      "acceptance_checks": [
+        "Includes AuditLog and SafetyEventRecord concepts as parts/items/attributes",
+        "At least 5 connectors from safety/ops components into logging storage",
+        "Includes timeSource and immutableStorageEnabled (or equivalent) representation",
+        "RetentionDays/searchable/actorId fields are represented or explicitly stubbed"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-006",
+      "type": "IBD",
+      "title": "IBD ROOT: Configuration Management Distribution (Config → Subsystems → Provenance)",
+      "goal": "Model how configuration selections propagate to subsystems and are captured for provenance/metadata.",
+      "dependencies": [
+        "RD-F-006",
+        "RD-F-007",
+        "IBD-ROOT-003",
+        "IBD-SUB08-002"
+      ],
+      "acceptance_checks": [
+        "Includes a configuration manager/control point and at least 6 configuration consumers",
+        "Shows configuration snapshot exported to metadata/provenance path",
+        "At least 8 connectors including cmd/config, status, and time sync",
+        "Configuration identifiers are modeled as typed attributes or items"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-007",
+      "type": "IBD",
+      "title": "IBD ROOT: Degraded Mode Wiring (Limited Tracking / Limited Alignment / Partial Instrument)",
+      "goal": "Represent signals and gating logic used to enforce degraded operational modes across subsystems.",
+      "dependencies": [
+        "RD-OPS-001",
+        "RD-OPS-003",
+        "IBD-SUB10-001",
+        "IBD-SUB09-003",
+        "IBD-ROOT-004"
+      ],
+      "acceptance_checks": [
+        "Includes degraded mode controller logic or mode manager extensions",
+        "At least 6 connectors that gate capabilities (tracking, alignment, instrument services)",
+        "Shows operator notification and logging when degraded mode is entered",
+        "Explicitly distinguishes degraded mode from safe-state (safe-state handled separately)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-008",
+      "type": "IBD",
+      "title": "IBD ROOT: End-to-End Observation Data + Control Synchronization (Exposure Triggering)",
+      "goal": "Model coordination signals that align exposure triggers, readout timing, metadata timestamps, and OCS sequencing.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-F-007",
+        "RD-NF-005",
+        "IBD-ROOT-002",
+        "IBD-OPS-001",
+        "IBD-SUB08-001"
+      ],
+      "acceptance_checks": [
+        "Includes an exposure trigger signal path and a readout completion path",
+        "At least 8 connectors across instrument, OCS, data capture, and timing",
+        "Monotonic ordering and time reference are explicitly indicated",
+        "No trigger is modeled without time sync reference"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB07-001",
+      "type": "IBD",
+      "title": "IBD SUB07: Observatory Control System (sequencer, config, telemetry, alarms) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Observatory Control System (sequencer, config, telemetry, alarms).",
+      "dependencies": [
+        "BDD-SUB07-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB07-002",
+      "type": "IBD",
+      "title": "IBD SUB07: Observatory Control System (sequencer, config, telemetry, alarms) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Observatory Control System (sequencer, config, telemetry, alarms).",
+      "dependencies": [
+        "BDD-SUB07-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB07-003",
+      "type": "IBD",
+      "title": "IBD SUB07: Observatory Control System (sequencer, config, telemetry, alarms) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Observatory Control System (sequencer, config, telemetry, alarms).",
+      "dependencies": [
+        "BDD-SUB07-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB10-003",
+      "type": "IBD",
+      "title": "IBD SUB10: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes) internal connectivity",
+      "goal": "Model internal connections/interfaces for Thirty Meter Telescope (TMT, 三十米望远镜) subsystem: Operations/Maintenance (startup/shutdown, fault handling, maintenance modes).",
+      "dependencies": [
+        "BDD-SUB10-001"
+      ],
+      "acceptance_checks": [
+        "Contains package + internal connections",
+        "Uses consistent part names",
+        "Parsable SysML v2 package"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-009",
+      "type": "IBD",
+      "title": "IBD ROOT: TMT Internal Interface Baseline Reconstitution (SoS Map v2)",
+      "goal": "Rebuild a non-expired top-level internal interface map across major TMT subsystems to serve as the anchor for all IBD refinements in this phase.",
+      "dependencies": [
+        "RD-CTX-001",
+        "RD-IF-001",
+        "BDD-SUB01-003",
+        "BDD-SUB02-003",
+        "BDD-SUB03-003",
+        "BDD-SUB04-001",
+        "BDD-SUB05-002",
+        "BDD-SUB06-002",
+        "BDD-SUB08-002",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001"
+      ],
+      "acceptance_checks": [
+        "Contains a single top-level package with parts for each major subsystem in the dependency list",
+        "Shows at least one connector between each subsystem and at least one other subsystem (no isolated blocks)",
+        "All ports referenced on connectors exist on the corresponding part types (port-block matching)",
+        "Names are consistent with RD-IF-001 external interface inventory (no conflicting interface naming)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-010",
+      "type": "IBD",
+      "title": "IBD ROOT: Internal Networks Segmentation (Mgmt vs Control vs Science Data)",
+      "goal": "Define internal network buses/segments and the connection of subsystems to those segments, separating management, real-time control, and science/data movement.",
+      "dependencies": [
+        "RD-IF-003",
+        "RD-NF-005",
+        "BDD-SUB03-003",
+        "BDD-SUB08-002",
+        "IBD-ROOT-009"
+      ],
+      "acceptance_checks": [
+        "Defines internal network parts (e.g., mgmtNet, controlBus, dataNet) as explicit parts",
+        "Each subsystem part connects to at least one network segment via a port with direction (in/out/inout)",
+        "Includes attributes for bandwidth and latency on network segments or interfaces",
+        "No connector references ports that are undefined in BDD models for the connected parts"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-011",
+      "type": "IBD",
+      "title": "IBD ROOT: Unified Telemetry Backbone (Publish/Subscribe Wiring v2)",
+      "goal": "Standardize telemetry flows from subsystems to OCS/Ops and Data System, including sampling cadence and routing.",
+      "dependencies": [
+        "RD-F-006",
+        "RD-F-007",
+        "BDD-SUB08-002",
+        "BDD-SUB10-001",
+        "IBD-ROOT-009"
+      ],
+      "acceptance_checks": [
+        "Shows telemetry producers (all major subsystems) and consumers (OCS/Ops, Data System) as parts",
+        "Connectors indicate telemetry direction (out of subsystem, into aggregation/consumers)",
+        "Telemetry cadence attributes are instantiated for at least OCS/Ops and Data System receivers",
+        "Includes at least one alarm/health telemetry channel aligned with RD-F-006"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-012",
+      "type": "IBD",
+      "title": "IBD ROOT: Command Routing + Authorization Gates (Operator→OCS→Subsystems v2)",
+      "goal": "Refine command distribution with explicit authorization/interlock gating points and fail-closed behavior.",
+      "dependencies": [
+        "RD-F-006",
+        "RD-F-008",
+        "RD-OPS-003",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001",
+        "IBD-ROOT-009"
+      ],
+      "acceptance_checks": [
+        "Represents at least: OperatorCommand source, OCS command router, safety gate, subsystem command endpoints",
+        "Shows gating connector(s) where Safety affects command enable/disable",
+        "Command latency or authorization delay attribute instantiated per RD-NF-005 or RD-F-006 semantics",
+        "No command connector targets a subsystem that lacks a corresponding command port in its BDD"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-013",
+      "type": "IBD",
+      "title": "IBD ROOT: Time & Frequency Distribution Backbone (Re-issue)",
+      "goal": "Re-issue time distribution as a non-expired baseline including time reference intake, fanout, and loop-timing consumers.",
+      "dependencies": [
+        "RD-NF-005",
+        "RD-IF-001",
+        "BDD-SUB03-003",
+        "BDD-SUB04-001",
+        "BDD-SUB05-002",
+        "BDD-SUB08-002",
+        "IBD-ROOT-009"
+      ],
+      "acceptance_checks": [
+        "Includes a Time/Frequency reference intake and internal distribution node(s)",
+        "Connects timeSync ports to APS, AO, Data System, and OCS/Ops (if modeled via SUB10/OCS)",
+        "Instantiates clockSyncAccuracy/timestampAccuracy attributes consistent with RD-NF-005",
+        "All time connectors terminate at existing time ports defined in BDD models"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-014",
+      "type": "IBD",
+      "title": "IBD ROOT: Power Distribution Internal Links (Facility→Subsystem Feeds v2)",
+      "goal": "Capture internal power feeds, backup behavior, and controlled shutdown triggers as wiring among facility elements and consumers.",
+      "dependencies": [
+        "RD-IF-003",
+        "RD-OPS-003",
+        "BDD-SUB03-003",
+        "BDD-SUB09-001",
+        "IBD-ROOT-009"
+      ],
+      "acceptance_checks": [
+        "Models primary power feed plus at least one backup path (UPS/generator) internally",
+        "Connects Safety/Ops constraints to controlled shutdown signaling",
+        "Power quality attributes (voltage/frequency) are instantiated for facility power outputs",
+        "No power port used in IBD is missing from BDD-SUB03-003 or consuming subsystem BDDs"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-015",
+      "type": "IBD",
+      "title": "IBD ROOT: Safety Inhibit Fanout to Motion-Capable Subsystems (Re-issue)",
+      "goal": "Re-issue inhibit distribution wiring to all motion-capable subsystems (mount, optics actuators, enclosure mechanisms, AO, instruments where applicable).",
+      "dependencies": [
+        "BDD-SUB09-001",
+        "RD-F-008",
+        "IBD-ROOT-009"
+      ],
+      "acceptance_checks": [
+        "Includes explicit inhibit source(s) within Safety subsystem and sinks in each motion-capable subsystem part",
+        "Connectors specify direction (inhibit out of safety, into subsystem inhibit port)",
+        "Includes at least one example of a latched trip condition and reset authorization path",
+        "All inhibit ports referenced exist in corresponding subsystem BDDs"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-016",
+      "type": "IBD",
+      "title": "IBD ROOT: Configuration Distribution & Provenance Capture (Config→Subsystems→Metadata v2)",
+      "goal": "Define internal configuration propagation and how selected configurations are captured for provenance/metadata.",
+      "dependencies": [
+        "RD-F-006",
+        "RD-F-007",
+        "BDD-SUB08-002",
+        "IBD-ROOT-012",
+        "IBD-ROOT-011"
+      ],
+      "acceptance_checks": [
+        "Includes configuration source (OCS/config manager), at least three subsystem config sinks, and Data System provenance sink",
+        "Connectors show config distribution separate from command/telemetry lines",
+        "Instantiates configuration context attributes on provenance/metadata records per RD-F-007 intent",
+        "No config port is used without an owning part/port definition traceable to BDD models"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-017",
+      "type": "IBD",
+      "title": "IBD ROOT: Degraded Mode Signaling (Limited Tracking / Limited Alignment / Partial Instrument v2)",
+      "goal": "Model degraded mode signals and gating logic that constrain subsystem behaviors under partial capability states.",
+      "dependencies": [
+        "RD-OPS-001",
+        "RD-OPS-003",
+        "BDD-SUB10-001",
+        "BDD-SUB09-001",
+        "IBD-ROOT-011",
+        "IBD-ROOT-012"
+      ],
+      "acceptance_checks": [
+        "Defines degraded mode signals as explicit flows (not only attributes)",
+        "Shows at least three degraded modes mapped to affected subsystems (mount, APS, instruments, etc.)",
+        "Includes a safety override path for safe-park behavior under degraded conditions",
+        "Mode/state identifiers are consistent with RD-OPS-001 naming"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-018",
+      "type": "IBD",
+      "title": "IBD ROOT: End-to-End Exposure Synchronization Wiring (Trigger/Readout/Timestamps v2)",
+      "goal": "Align exposure trigger, detector readout, metadata timestamping, and sequencing coordination across OCS, instruments, and data services.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-F-007",
+        "RD-NF-005",
+        "IBD-ROOT-013",
+        "BDD-SUB06-002",
+        "BDD-SUB08-002",
+        "IBD-ROOT-012"
+      ],
+      "acceptance_checks": [
+        "Includes an exposure trigger source, instrument readout sink, and metadata/timestamp sink",
+        "At least one timing constraint attribute is instantiated (latency, sync accuracy, or cadence)",
+        "Connectors are directionally correct for trigger vs data products vs metadata",
+        "Links to time distribution (IBD-ROOT-013) via timeSync/timeReference ports"
+      ]
+    },
+    {
+      "diagram_id": "IBD-PAT-001",
+      "type": "IBD",
+      "title": "IBD Pattern: Port/Attribute Instantiation Checklist Harness (BDD→IBD Consistency)",
+      "goal": "Provide a reusable IBD harness that forces instantiation of BDD-defined attributes and prohibits orphan ports, addressing known validation failures.",
+      "dependencies": [
+        "BDD-SUB03-003"
+      ],
+      "acceptance_checks": [
+        "Defines a pattern package with explicit rules/constraints for attribute instantiation",
+        "Includes an example mapping showing a BDD attribute and its required IBD instantiation",
+        "Includes a constraint that all ports used in IBD must exist in BDD for the referenced part types",
+        "Pattern is written so it can be imported by SUB03/SUB07/etc. IBDs without renaming collisions"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB03-011",
+      "type": "IBD",
+      "title": "IBD SUB03: Enclosure/Site Attribute Instantiation Completion (Consistency Fix Pack)",
+      "goal": "Fix the known SUB03 validation failures by instantiating all missing BDD attributes and aligning ports/blocks for facility elements.",
+      "dependencies": [
+        "BDD-SUB03-003",
+        "IBD-PAT-001"
+      ],
+      "acceptance_checks": [
+        "Instantiates key BDD attributes within the IBD (e.g., voltage, frequency, temperature, humidity, pressure, windSpeed, bandwidth, latency)",
+        "All previously orphan ports (e.g., power supply, HVAC control, networking control equivalents) have matching owning parts typed per BDD",
+        "No connector endpoint references a port not defined on the part’s type in BDD-SUB03-003",
+        "Includes a small in-diagram acceptance note listing the attributes instantiated and where"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB01-006",
+      "type": "IBD",
+      "title": "IBD SUB01: M1 Segment Actuation & Metrology Internal Wiring",
+      "goal": "Detail internal wiring between M1 segments, segment actuators, metrology sensors, and local controllers within the Telescope Optical System.",
+      "dependencies": [
+        "BDD-SUB01-003",
+        "BDD-SUB04-001",
+        "RD-F-004",
+        "IBD-ROOT-013"
+      ],
+      "acceptance_checks": [
+        "Shows parts representing segment actuator(s), metrology, and a local control element within SUB01 scope",
+        "Connectors carry wavefront/metrology items and actuator command items with correct directions",
+        "Includes timing linkage (timeSync) for metrology sampling or actuation cadence",
+        "All ports used are defined in BDD-SUB01-003 or referenced library types"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB01-007",
+      "type": "IBD",
+      "title": "IBD SUB01: M2/M3 Control, Telemetry, and Thermal Interfaces (Internal)",
+      "goal": "Model internal connectivity for secondary/tertiary mirror mechanisms including control loops, telemetry, and thermal management.",
+      "dependencies": [
+        "BDD-SUB01-003",
+        "RD-F-006",
+        "RD-NF-004",
+        "IBD-ROOT-011",
+        "IBD-ROOT-012"
+      ],
+      "acceptance_checks": [
+        "Includes explicit parts for M2 and M3 assemblies and their controllers",
+        "Connectors cover command, telemetry, and thermal/cooling ports with correct directions",
+        "Instantiates at least one thermal/environment attribute consistent with RD-NF-004",
+        "No connector targets ports absent from BDD-SUB01-003"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB01-008",
+      "type": "IBD",
+      "title": "IBD SUB01: Optical Beam Path Handover Ports (SUB01 Internal Routing)",
+      "goal": "Define internal routing from optical input through internal beam-handling elements to optical output port(s) feeding AO and/or instruments.",
+      "dependencies": [
+        "BDD-SUB01-003",
+        "BDD-SUB05-002",
+        "BDD-SUB06-002"
+      ],
+      "acceptance_checks": [
+        "Shows at least one opticalIn and one opticalOut port inside SUB01 scope",
+        "Includes connectors for beam propagation and any associated configuration/state reporting",
+        "Uses consistent port naming for optical beam ports across SUB01/SUB05/SUB06",
+        "No optical port used lacks a type or direction"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB02-005",
+      "type": "IBD",
+      "title": "IBD SUB02: Alt-Az Drive Loops (Motor/Drive/Encoder Wiring)",
+      "goal": "Detail internal mount control wiring among drive electronics, motors, encoders, and control processors.",
+      "dependencies": [
+        "BDD-SUB02-003",
+        "RD-F-003",
+        "RD-NF-005",
+        "IBD-ROOT-013"
+      ],
+      "acceptance_checks": [
+        "Includes parts for drive controller(s), motor(s), encoder(s), and mount control processor",
+        "Connectors include command, feedback, and timeSync references where appropriate",
+        "Instantiates at least one latency/update-rate attribute to reflect control loop requirements",
+        "All referenced ports exist in BDD-SUB02-003"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB02-006",
+      "type": "IBD",
+      "title": "IBD SUB02: Vibration Sensing/Actuation Internal Wiring (Line-of-Sight Stability)",
+      "goal": "Model internal connections for vibration sensing and any vibration actuation/mitigation elements supporting jitter performance.",
+      "dependencies": [
+        "BDD-SUB02-003",
+        "RD-NF-002",
+        "IBD-ROOT-011"
+      ],
+      "acceptance_checks": [
+        "Contains vibration sensor parts and at least one mitigation/actuation element (if present in BDD)",
+        "Connectors show telemetry of vibration metrics toward control element(s)",
+        "Instantiates at least one jitter/stability-related attribute consistent with RD-NF-002",
+        "No orphan vibration ports appear without matching parts typed per BDD-SUB02-003"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB03-012",
+      "type": "IBD",
+      "title": "IBD SUB03: HVAC Loops & Environmental Sensing Wiring (Internal)",
+      "goal": "Detail HVAC control loops, sensor wiring, and environmental data publication used for operational constraints and thermal management.",
+      "dependencies": [
+        "BDD-SUB03-003",
+        "RD-NF-004",
+        "IBD-ROOT-011"
+      ],
+      "acceptance_checks": [
+        "Includes parts for HVAC control, sensors, and actuators (fans/valves or abstract equivalents)",
+        "Connects environmental sensing outputs to telemetry backbone consumers",
+        "Instantiates temperature/humidity/pressure attributes as defined in BDD-SUB03-003",
+        "No port appears in IBD without a corresponding block/part definition in BDD-SUB03-003"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB03-013",
+      "type": "IBD",
+      "title": "IBD SUB03: Enclosure Mechanisms Internal Wiring (Rotation/Shutters/Wind Screens)",
+      "goal": "Model internal control and telemetry wiring for enclosure mechanisms and their local safety/ops constraints.",
+      "dependencies": [
+        "BDD-SUB03-003",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001",
+        "RD-F-008",
+        "IBD-ROOT-015",
+        "IBD-ROOT-012"
+      ],
+      "acceptance_checks": [
+        "Defines enclosure mechanism parts and their controllers",
+        "Shows safety inhibit connectors reaching mechanism controllers",
+        "Includes mechanism state telemetry to OCS/Ops and alarms where relevant",
+        "All mechanism control/safety ports used exist in the referenced BDDs"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB04-006",
+      "type": "IBD",
+      "title": "IBD SUB04: APS Internal Dataflow (WFS Frames→Wavefront Estimate→Actuator Commands)",
+      "goal": "Detail internal APS connectivity among WFS acquisition, estimator, controller, and actuator command distribution.",
+      "dependencies": [
+        "BDD-SUB04-001",
+        "RD-F-004",
+        "RD-NF-005",
+        "IBD-ROOT-013"
+      ],
+      "acceptance_checks": [
+        "Shows WfsFrame, WavefrontEstimate, and ActuatorCommand flow through at least three internal parts",
+        "Includes explicit timing/timeSync connection for WFS frame timestamping or loop cadence",
+        "Instantiates updateRate/segmentPositionAccuracy attributes per RD-F-004 intent",
+        "All ports and item flows are typed and directionally consistent"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB04-007",
+      "type": "IBD",
+      "title": "IBD SUB04: Phasing Loop Stability/Recovery Signaling (Non-expired)",
+      "goal": "Re-issue stability and recovery signaling within APS including disturbance detection, loop state, and recovery coordination.",
+      "dependencies": [
+        "BDD-SUB04-001",
+        "RD-F-004",
+        "RD-OPS-003",
+        "IBD-SUB04-006"
+      ],
+      "acceptance_checks": [
+        "Includes explicit loop state/status outputs and recovery trigger inputs",
+        "Shows a path from disturbance detection to recovery action selection",
+        "Instantiates recoveryTime/loopStability-related attributes consistent with RD-F-004",
+        "No stability/recovery port is referenced without being defined in APS part types"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB04-008",
+      "type": "IBD",
+      "title": "IBD SUB04: APS Safety Interlock Consumption (Motion/Laser/Access Constraints v2)",
+      "goal": "Re-issue APS↔Safety integration showing how interlocks inhibit actuation and how safe-state is confirmed.",
+      "dependencies": [
+        "BDD-SUB04-001",
+        "BDD-SUB09-001",
+        "RD-F-008",
+        "RD-OPS-003",
+        "IBD-ROOT-015",
+        "IBD-ROOT-012"
+      ],
+      "acceptance_checks": [
+        "Contains safety inhibit input(s) into APS actuation/control elements",
+        "Includes a confirmation/status feedback path from APS back to Safety/OCS",
+        "Models at least one interlock class (motion, access, or laser) as an explicit signal/flow",
+        "All inhibit/status ports exist in BDD-SUB04-001 and BDD-SUB09-001"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB05-005",
+      "type": "IBD",
+      "title": "IBD SUB05: AO Internal Loop Closure (WFS→RTC→DM/TipTilt)",
+      "goal": "Detail AO internal loop wiring including wavefront sensor data, reconstructor/RTC compute, and DM/tip-tilt command outputs.",
+      "dependencies": [
+        "BDD-SUB05-002",
+        "RD-NF-005",
+        "IBD-ROOT-013"
+      ],
+      "acceptance_checks": [
+        "Shows at least WFS acquisition, RTC/reconstructor, and DM/tip-tilt actuator as parts",
+        "Connectors include WFS data out, DM command out, and timeSync in",
+        "Instantiates aoLoopRate_Hz (or equivalent) and at least one latency attribute",
+        "All AO ports referenced are defined in BDD-SUB05-002"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB05-006",
+      "type": "IBD",
+      "title": "IBD SUB05: AO Telemetry & Performance Metrics Wiring (Residual WFE/Strehl)",
+      "goal": "Model AO performance telemetry generation and routing to OCS/Ops and Data System for provenance.",
+      "dependencies": [
+        "BDD-SUB05-002",
+        "BDD-SUB08-002",
+        "RD-NF-001",
+        "RD-F-007",
+        "IBD-ROOT-011"
+      ],
+      "acceptance_checks": [
+        "Includes metrics sources (AO controller) and sinks (OCS/Ops, Data System)",
+        "Connectors carry residualWFE_nm/strehlRatio/loop rate as typed telemetry items or attributes",
+        "Shows linkage to Data System metadata/provenance capture path",
+        "No performance port used is missing from BDD-SUB05-002"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB06-005",
+      "type": "IBD",
+      "title": "IBD SUB06: Instrument Port Services Internal Wiring (Power/Data/Time/Cool/Beam)",
+      "goal": "Detail internal connectivity within instrument hosting for service distribution to an instrument port assembly and attached instruments.",
+      "dependencies": [
+        "BDD-SUB06-002",
+        "RD-IF-002",
+        "IBD-ROOT-013",
+        "IBD-ROOT-014"
+      ],
+      "acceptance_checks": [
+        "Shows InstrumentPortAssembly and at least one Instrument part connected via service ports",
+        "Includes separate connectors for PwrPort, DataPort, TimePort, CoolPort, BeamPort",
+        "Instantiates at least one capacity attribute from RD-IF-002 (powerCapacityMax/dataBandwidthMax/thermalCapacityMax equivalents)",
+        "All service ports referenced exist in BDD-SUB06-002"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB06-006",
+      "type": "IBD",
+      "title": "IBD SUB06: Instrument Isolation & Interlock Wiring (Safety + Ops Integration v2)",
+      "goal": "Model instrument isolation, safe shutdown, and interlock status wiring between instruments, safety subsystem, and ops/maintenance control.",
+      "dependencies": [
+        "BDD-SUB06-002",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001",
+        "RD-F-005",
+        "RD-F-008",
+        "IBD-ROOT-015",
+        "IBD-ROOT-012"
+      ],
+      "acceptance_checks": [
+        "Includes isolation control path and status feedback path",
+        "Shows safety interlock signals reaching instrument service enable/disable elements",
+        "Instantiates a healthCheck or safeIsolation-related attribute consistent with RD-F-005",
+        "No interlock/isolation ports appear without corresponding parts typed per BDDs"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB08-005",
+      "type": "IBD",
+      "title": "IBD SUB08: Raw/Cal/Metadata Internal Pipelines (Capture→Staging→Processing)",
+      "goal": "Detail internal connectivity among raw capture, calibration capture, metadata services, staging buffers, and pipeline compute within Data System.",
+      "dependencies": [
+        "BDD-SUB08-002",
+        "RD-F-007",
+        "IBD-ROOT-010"
+      ],
+      "acceptance_checks": [
+        "Models at least: Raw capture, Metadata service, Staging, Pipeline compute as parts",
+        "Connectors carry RawFrame/CalibrationFrame/MetadataRecord items with correct directions",
+        "Instantiates at least one data rate or latency attribute on an internal interface",
+        "No internal data port used is missing from BDD-SUB08-002"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB08-006",
+      "type": "IBD",
+      "title": "IBD SUB08: Data Integrity Pattern Application (Ack/Retry/Checksum on Interfaces)",
+      "goal": "Apply a consistent wiring pattern for ack/retry/checksum across critical internal data interfaces.",
+      "dependencies": [
+        "RD-F-007",
+        "BDD-SUB08-002",
+        "IBD-SUB08-005"
+      ],
+      "acceptance_checks": [
+        "Shows at least one interface with ack and retry signaling plus payload flow",
+        "Includes an integrity check mechanism (checksum/digest) represented as an attribute or item",
+        "Demonstrates the pattern on at least two distinct internal links (e.g., capture→staging, staging→pipeline)",
+        "All flows are directionally consistent (acks return opposite of payload direction)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB08-007",
+      "type": "IBD",
+      "title": "IBD SUB08: Archive/Distribution Staging to External Interfaces (Internal Side v2)",
+      "goal": "Model internal staging from pipeline outputs to archive interfaces and partner distribution endpoints (internal boundary).",
+      "dependencies": [
+        "BDD-SUB08-002",
+        "RD-F-007",
+        "RD-IF-001",
+        "IBD-SUB08-005"
+      ],
+      "acceptance_checks": [
+        "Includes internal archive staging and at least one external endpoint representation (as a boundary part)",
+        "Connectors show data product flow and associated metadata/provenance flow",
+        "Instantiates a storageCapacityTB or latencySeconds attribute on staging",
+        "External interface naming aligns with RD-IF-001 (no contradictory endpoint naming)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB09-004",
+      "type": "IBD",
+      "title": "IBD SUB09: Safety PLC Internal IO Wiring (E-Stop, Interlocks, Inhibits, Alarms)",
+      "goal": "Detail internal wiring inside Safety subsystem including PLC, sensor IO, inhibit outputs, and alarm annunciation outputs.",
+      "dependencies": [
+        "BDD-SUB09-001",
+        "RD-F-008",
+        "RD-NF-006",
+        "IBD-ROOT-011"
+      ],
+      "acceptance_checks": [
+        "Includes SafetyPLC part and explicit IO parts (EStop loop, access interlocks, discrete IO)",
+        "Shows inhibit outputs and alarm outputs as separate ports/flows",
+        "Includes an event/logging connector feeding audit/safety event record path",
+        "All ports referenced are defined in BDD-SUB09-001"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB09-005",
+      "type": "IBD",
+      "title": "IBD SUB09: Safety Event + Audit Log Wiring (Compliance Evidence v2)",
+      "goal": "Model internal connections that generate and persist audit logs and safety event records for compliance evidence retention/search.",
+      "dependencies": [
+        "RD-NF-006",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001",
+        "IBD-SUB09-004",
+        "IBD-ROOT-011"
+      ],
+      "acceptance_checks": [
+        "Includes SafetyEventRecord and AuditLog sinks (or equivalent) as parts or data services",
+        "Shows immutable storage/retention attributes instantiated (retentionDays/tamperEvident equivalents)",
+        "Links events/logs to time source or timestamping path consistent with RD-NF-005/RD-NF-006 intent",
+        "No logging port is referenced without definition in Safety/Ops BDDs"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB10-004",
+      "type": "IBD",
+      "title": "IBD SUB10: Ops/Maint State Machine Wiring (Mode Commands↔Status/Readiness)",
+      "goal": "Detail internal wiring for operations/maintenance control of modes, readiness aggregation, and state transition confirmations.",
+      "dependencies": [
+        "BDD-SUB10-001",
+        "RD-OPS-001",
+        "RD-F-006",
+        "IBD-ROOT-011",
+        "IBD-ROOT-012"
+      ],
+      "acceptance_checks": [
+        "Includes mode command source, readiness/status aggregators, and mode status outputs",
+        "Instantiates mode/state identifiers consistent with RD-OPS-001",
+        "Shows telemetry and alarm integration points for ops consoles",
+        "No command/status ports are used without corresponding definitions in BDD-SUB10-001"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB10-005",
+      "type": "IBD",
+      "title": "IBD SUB10: Fault Handling Wiring (Detect→Annunciate→Safe State→Recover)",
+      "goal": "Model internal fault-response wiring within Ops/Maint, including linkage to Safety and subsystem recovery coordination.",
+      "dependencies": [
+        "BDD-SUB10-001",
+        "RD-OPS-003",
+        "BDD-SUB09-001",
+        "IBD-ROOT-011",
+        "IBD-ROOT-012",
+        "IBD-ROOT-015"
+      ],
+      "acceptance_checks": [
+        "Represents at least three fault classes (motion, power, network, thermal) as typed flows or attributes",
+        "Shows annunciation path to alarms and logging path to evidence stores",
+        "Includes safe-state trigger path to Safety inhibit distribution",
+        "Recovery path includes authorization gating (no direct unsafe recovery without gate)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-IF-INT-005",
+      "type": "IBD",
+      "title": "IBD Internal IF: Optics↔AO Beam + State Interface Bundle",
+      "goal": "Define interface bundle between telescope optics and AO including optical beam handover plus telescope state inputs needed for AO.",
+      "dependencies": [
+        "BDD-SUB01-003",
+        "BDD-SUB05-002",
+        "IBD-SUB01-008",
+        "IBD-SUB05-005"
+      ],
+      "acceptance_checks": [
+        "Includes optical beam flow plus a telescopeState flow into AO",
+        "Ports are typed consistently between SUB01 and SUB05 and used on connectors",
+        "Includes at least one constraint/attribute for alignment of frames or timing references",
+        "No port name mismatch exists across the connected part types"
+      ]
+    },
+    {
+      "diagram_id": "IBD-IF-INT-006",
+      "type": "IBD",
+      "title": "IBD Internal IF: Mount↔Optics Structural/Alignment Coupling Signals",
+      "goal": "Model the internal interfaces that couple mount/structure behavior to optical alignment needs (flexure, temperature, vibration, alignment tolerances).",
+      "dependencies": [
+        "BDD-SUB02-003",
+        "BDD-SUB01-003",
+        "RD-NF-002",
+        "RD-NF-004"
+      ],
+      "acceptance_checks": [
+        "Includes at least one structural/mechanical coupling interface and one telemetry interface",
+        "Instantiates at least one alignmentTolerance attribute and one vibration/thermal attribute",
+        "Connectors indicate directionality for sensed effects vs control/compensation commands",
+        "No coupling port is used without presence in either SUB01 or SUB02 BDD"
+      ]
+    },
+    {
+      "diagram_id": "IBD-IF-INT-007",
+      "type": "IBD",
+      "title": "IBD Internal IF: Instruments↔Data System (Raw/Cal/Metadata) Contract v2",
+      "goal": "Re-issue internal data interface contract between instrument subsystem and data system services (push/pull, ack/retry, metadata hooks).",
+      "dependencies": [
+        "BDD-SUB06-002",
+        "BDD-SUB08-002",
+        "RD-F-007",
+        "IBD-SUB06-005",
+        "IBD-SUB08-006"
+      ],
+      "acceptance_checks": [
+        "Shows raw data, calibration data, and metadata flows as separate connectors or separate items within a connector",
+        "Includes ack/retry behavior for at least one of the flows",
+        "Metadata integration hooks are present (configuration context and timestamps)",
+        "Port names and directions match those defined in SUB06 and SUB08 BDDs"
+      ]
+    },
+    {
+      "diagram_id": "IBD-IF-INT-008",
+      "type": "IBD",
+      "title": "IBD Internal IF: Site Infrastructure↔All Subsystems (Utility Services Bundle)",
+      "goal": "Define the internal contract for facility services (power, cooling, network, environment telemetry) delivered to each subsystem.",
+      "dependencies": [
+        "RD-IF-003",
+        "BDD-SUB03-003",
+        "IBD-ROOT-010",
+        "IBD-ROOT-014"
+      ],
+      "acceptance_checks": [
+        "Includes service bundle connectors to at least five subsystems",
+        "Separates power vs cooling vs network vs environment telemetry as distinct ports or items",
+        "Instantiates powerAvailable/thermalPower/bandwidth/latency attributes on the facility side",
+        "No service port referenced is absent from BDD-SUB03-003"
+      ]
+    },
+    {
+      "diagram_id": "IBD-OPS-004",
+      "type": "IBD",
+      "title": "IBD OPS: Nominal Observation Sequencing Wiring (Startup→Shutdown v2)",
+      "goal": "Re-issue nominal lifecycle wiring that ties sequencing commands, state readiness, telemetry, and data capture across major subsystems.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-F-006",
+        "IBD-ROOT-012",
+        "IBD-ROOT-011",
+        "IBD-ROOT-018",
+        "IBD-SUB06-005",
+        "IBD-SUB08-005"
+      ],
+      "acceptance_checks": [
+        "Includes each major phase of observation lifecycle as an explicit command/state transition path",
+        "Shows sequencing command flow and status confirmation flow as separate directions",
+        "Includes exposure synchronization signals referencing IBD-ROOT-018",
+        "No subsystem is included without at least one command and one telemetry connection"
+      ]
+    },
+    {
+      "diagram_id": "IBD-OPS-005",
+      "type": "IBD",
+      "title": "IBD OPS: Weather Abort Trigger Wiring (Env Sensors→Decision→Safe Park v2)",
+      "goal": "Re-issue wiring from environmental sensing to abort decisions and safe-park/safe-state actions.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-OPS-003",
+        "RD-NF-004",
+        "IBD-SUB03-012",
+        "IBD-ROOT-015",
+        "IBD-SUB10-005"
+      ],
+      "acceptance_checks": [
+        "Includes explicit environmental sensor outputs (wind, temperature, dust/visibility equivalent) feeding abort logic",
+        "Shows abort decision output leading to safe-state triggers in Safety and safe-park actions in Ops/Maint",
+        "Instantiates at least one threshold attribute consistent with RD-NF-004",
+        "No abort trigger port exists without a corresponding sensor/controller part typed per BDD"
+      ]
+    },
+    {
+      "diagram_id": "IBD-OPS-006",
+      "type": "IBD",
+      "title": "IBD OPS: Fault Abort Trigger Wiring (Power/Network/Motion) v2",
+      "goal": "Re-issue wiring of fault conditions leading to abort and safe-state behavior across fault classes.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-OPS-003",
+        "IBD-ROOT-014",
+        "IBD-ROOT-010",
+        "IBD-ROOT-015",
+        "IBD-SUB10-005"
+      ],
+      "acceptance_checks": [
+        "Represents at least: power fault, network fault, motion fault triggers as explicit signals",
+        "Shows routing to abort decision and then to safe-state inhibit distribution",
+        "Includes logging/telemetry of abort reason toward Data or Ops logs",
+        "No fault trigger is modeled without a corresponding source part (sensor/controller) in the IBD"
+      ]
+    },
+    {
+      "diagram_id": "IBD-QA-001",
+      "type": "IBD",
+      "title": "IBD QA: Cross-View Consistency Gate (Ports & Attributes) — SUB03 Focus",
+      "goal": "Create an explicit QA IBD that can be used as a checklist view to validate SUB03 BDD↔IBD port and attribute consistency and prevent regression.",
+      "dependencies": [
+        "BDD-SUB03-003",
+        "IBD-SUB03-011",
+        "IBD-SUB03-012",
+        "IBD-SUB03-013"
+      ],
+      "acceptance_checks": [
+        "Lists or instantiates the key SUB03 attributes defined in BDD and shows their presence in IBD instances",
+        "Demonstrates that every port used in SUB03 IBDs has an owning part typed from BDD-SUB03-003",
+        "Includes a constraint or note capturing 'no orphan ports' and 'no missing attributes' rules",
+        "Provides a named acceptance element that can be referenced by other subsystem QA views"
+      ]
+    },
+    {
+      "diagram_id": "IBD-QA-002",
+      "type": "IBD",
+      "title": "IBD QA: Cross-Subsystem Port Naming Harmonization (Optical/Time/Cmd/Tlm)",
+      "goal": "Define a harmonized naming view for common cross-cut ports to reduce mismatch errors across subsystem IBDs.",
+      "dependencies": [
+        "IBD-ROOT-009",
+        "IBD-ROOT-011",
+        "IBD-ROOT-012",
+        "IBD-ROOT-013"
+      ],
+      "acceptance_checks": [
+        "Identifies canonical port names for command, telemetry, timeSync, optical beam, safety inhibit",
+        "Shows at least one example mapping from subsystem-specific port to canonical port",
+        "No canonical port name collides with existing BDD port definitions (alignment only, not contradictory renames)",
+        "Includes a constraint or note requiring usage of canonical names in future IBD items"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-019",
+      "type": "IBD",
+      "title": "IBD ROOT: Internal Interface Allocation Matrix View (Connections as Inventory)",
+      "goal": "Provide an inventory-style IBD that lists/represents key internal interface bundles as parts/connectors for traceability and completeness checks.",
+      "dependencies": [
+        "IBD-ROOT-009",
+        "RD-IF-001",
+        "RD-IF-003",
+        "RD-NF-005"
+      ],
+      "acceptance_checks": [
+        "Includes a part for each major internal interface bundle (time, cmd, telemetry, power, network, safety inhibit, data)",
+        "Each bundle connects to at least three subsystems",
+        "Attributes exist on bundles capturing at least one of: latency, bandwidth, voltage/frequency, sync accuracy",
+        "No subsystem is missing from all bundles (every subsystem participates in at least one bundle)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-ROOT-020",
+      "type": "IBD",
+      "title": "IBD ROOT: Internal Security/Access Control Signals (Roles→Authorization→Audit)",
+      "goal": "Model internal access-control policy enforcement points for command authorization and audit logging (within the scope defined by RD-NF-006).",
+      "dependencies": [
+        "RD-NF-006",
+        "IBD-ROOT-012",
+        "IBD-SUB09-005"
+      ],
+      "acceptance_checks": [
+        "Includes an access control policy/role concept as an explicit part or attribute carrier",
+        "Shows authorization decision feeding command enablement path",
+        "Routes authorization events to audit log storage",
+        "No security-related signal is modeled without a sink for evidence retention/search"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB07-004",
+      "type": "IBD",
+      "title": "IBD SUB07: OCS Command Router Internal Wiring (Subsystem Adapters)",
+      "goal": "Detail internal OCS command router decomposition and wiring to subsystem interface adapters.",
+      "dependencies": [
+        "IBD-ROOT-012",
+        "IBD-ROOT-010",
+        "IBD-ROOT-013"
+      ],
+      "acceptance_checks": [
+        "Defines OCS internal parts: command router, adapter(s), authorization hook, transport layer",
+        "Shows separate connectors for cmd vs config vs timeSync when applicable",
+        "Includes at least one adapter per major subsystem class (motion, data, safety)",
+        "No adapter port is untyped; all have defined direction"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB07-005",
+      "type": "IBD",
+      "title": "IBD SUB07: OCS Telemetry Aggregation & Alarm Correlation Internal Wiring",
+      "goal": "Model how OCS aggregates telemetry, correlates alarms, and forwards to operator interfaces and logs.",
+      "dependencies": [
+        "IBD-ROOT-011",
+        "IBD-SUB09-004",
+        "IBD-SUB10-004"
+      ],
+      "acceptance_checks": [
+        "Includes telemetry aggregator, alarm correlator, operator display output, and log output parts",
+        "Shows alarm inputs from Safety and Ops/Maint plus at least one other subsystem class",
+        "Includes correlation ID or traceCorrelationId attribute on at least one alarm/log flow",
+        "No alarm/telemetry sink is missing a source (each input is connected from something)"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB07-006",
+      "type": "IBD",
+      "title": "IBD SUB07: OCS Configuration Manager Internal Wiring (Select→Distribute→Record)",
+      "goal": "Detail OCS config manager internal wiring for selection, distribution, and capture for provenance and reproducibility.",
+      "dependencies": [
+        "IBD-ROOT-016",
+        "IBD-ROOT-010",
+        "IBD-ROOT-013"
+      ],
+      "acceptance_checks": [
+        "Includes config selection source, distribution fanout, and provenance recorder connector",
+        "Instantiates schemaVersionRecorded/unitsAndFramesDeclared (or equivalent metadata completeness attributes) at the recorder",
+        "Shows linkage to timeSync for configuration timestamping",
+        "No config distribution connector targets a subsystem without a config sink port"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB02-007",
+      "type": "IBD",
+      "title": "IBD SUB02: Guidance Sensor Inputs Wiring (Rate/Latency Constraints v2)",
+      "goal": "Model how guidance sensor inputs are integrated into mount control and how rate/latency constraints are carried and checked.",
+      "dependencies": [
+        "BDD-SUB02-003",
+        "RD-F-003",
+        "RD-NF-005",
+        "IBD-SUB02-005"
+      ],
+      "acceptance_checks": [
+        "Includes guidance sensor input part(s) and mount control loop integration point",
+        "Instantiates sensorUpdateRateHz and rateUpdateLatencyMs (or equivalent) attributes",
+        "Shows buffering or timestamp alignment using timeSync if applicable",
+        "No guidance sensor port is referenced without definition in BDD-SUB02-003"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB01-009",
+      "type": "IBD",
+      "title": "IBD SUB01: Optical Configuration State Reporting Wiring (Mechanisms/States v2)",
+      "goal": "Represent internal wiring for optical path configuration mechanisms and their state reporting into ops sequencing and telemetry.",
+      "dependencies": [
+        "BDD-SUB01-003",
+        "RD-F-006",
+        "IBD-ROOT-011",
+        "IBD-ROOT-012"
+      ],
+      "acceptance_checks": [
+        "Includes configuration mechanism parts and a state reporter/telemetry publisher",
+        "Shows state telemetry reaching OCS/Ops paths",
+        "Instantiates at least one configuration identifier attribute captured by telemetry",
+        "No mechanism port appears without corresponding part typed per BDD-SUB01-003"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB03-014",
+      "type": "IBD",
+      "title": "IBD SUB03: Facility Monitoring Telemetry Routing (Env/Power/Network to OCS+Data)",
+      "goal": "Detail facility telemetry routing for environment, power quality, and network health to both OCS/Ops and Data System.",
+      "dependencies": [
+        "BDD-SUB03-003",
+        "IBD-ROOT-011",
+        "IBD-SUB08-005"
+      ],
+      "acceptance_checks": [
+        "Includes envSense/controlBus/mgmtNet elements (or equivalent) as telemetry sources",
+        "Routes to both ops telemetry sink and data provenance sink as separate consumers",
+        "Instantiates at least one uptimePercentage or monitoringFrequency attribute consistent with RD-IF-003 style",
+        "No telemetry connector terminates at an undefined consumer port"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB05-007",
+      "type": "IBD",
+      "title": "IBD SUB05: AO Safety & Laser Guide Star Interlock Wiring (If LGS Enabled)",
+      "goal": "Model AO safety interlocks relevant to LGS/laser operations and how they gate AO modes and emission permissions.",
+      "dependencies": [
+        "BDD-SUB05-002",
+        "BDD-SUB09-001",
+        "RD-F-008",
+        "IBD-ROOT-015"
+      ],
+      "acceptance_checks": [
+        "Includes a laser guide star enable/permission flow gated by Safety",
+        "Shows inhibit path that can disable AO emission or force safe mode",
+        "Includes at least one safety event logging connector tied to audit/event path",
+        "All safety/laser ports referenced exist on AO and Safety part types"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB06-007",
+      "type": "IBD",
+      "title": "IBD SUB06: Calibration Unit Wiring (Cal Light→Beam Port + Metadata Hooks)",
+      "goal": "Detail instrument calibration source/selector wiring and how calibration context is captured into metadata.",
+      "dependencies": [
+        "BDD-SUB06-002",
+        "RD-F-002",
+        "RD-F-007",
+        "IBD-ROOT-018"
+      ],
+      "acceptance_checks": [
+        "Includes CalibrationSource and SelectorMechanism parts connected to CalLightPort/BeamPort",
+        "Shows a metadata hook carrying calibrationType/cadence or equivalent context",
+        "Connects calibration timing to exposure synchronization wiring (IBD-ROOT-018) or timeSync",
+        "No calibration port is used without definition in BDD-SUB06-002"
+      ]
+    },
+    {
+      "diagram_id": "IBD-SUB08-008",
+      "type": "IBD",
+      "title": "IBD SUB08: Quick-Look QA Wiring (Near-Real-Time QA to Sequencer Decision)",
+      "goal": "Model quick-look QA generation and feedback wiring to observation sequencing decisions before the next exposure.",
+      "dependencies": [
+        "RD-F-007",
+        "RD-F-002",
+        "IBD-ROOT-011",
+        "IBD-OPS-004"
+      ],
+      "acceptance_checks": [
+        "Includes QA generation component consuming raw/cal/metadata streams",
+        "Outputs QA flags/metrics to OCS/Ops decision point prior to next exposure",
+        "Instantiates a constraint that QA is available before next exposure decision (timing requirement)",
+        "QA outputs are logged/stored in Data System context (provenance linkage)"
+      ]
+    },
+    {
+      "diagram_id": "AD-OPS-001",
+      "type": "AD",
+      "title": "AD OPS: Observatory Startup (Power-Up → Ready) Activity",
+      "goal": "Model the nominal startup behavior from site power availability through subsystem self-checks to an operator-declared 'Ready for Slew' state, aligned to operational modes and lifecycle requirements.",
+      "dependencies": [
+        "RD-OPS-001",
+        "RD-F-002",
+        "BDD-SUB03-001",
+        "BDD-SUB07-001",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001"
+      ],
+      "acceptance_checks": [
+        "Defines an action (e.g., StartupObservatory) with at least 1 in item for operator command or schedule trigger and 1 in item for time sync readiness",
+        "Uses first start, then action sequencing, and then done with a clear end condition 'ReadyForSlew'",
+        "Includes explicit decision/guard for 'Safety interlock tripped' and routes to a safe-state handoff action",
+        "References Operational Modes from RD-OPS-001 (e.g., StartupMode → StandbyMode) via named actions or states",
+        "Includes at least one telemetry/logging action (OCS) and one facilities readiness action (site power/HVAC/network)"
+      ]
+    },
+    {
+      "diagram_id": "AD-OPS-002",
+      "type": "AD",
+      "title": "AD OPS: Slew to Target (Pointing Model → Settle) Activity",
+      "goal": "Capture the slew-to-target behavior including target selection, pointing model application, mount motion, settling, and readiness for acquisition with timing/stability considerations.",
+      "dependencies": [
+        "RD-F-003",
+        "RD-F-002",
+        "BDD-SUB02-001",
+        "BDD-SUB07-001",
+        "RD-NF-002"
+      ],
+      "acceptance_checks": [
+        "Defines an action (e.g., SlewToTarget) with in items for TargetCoordinates and TimeReference",
+        "Contains steps for 'apply pointing model', 'command mount motion', 'monitor encoders', and 'settle/verify residual error'",
+        "Includes a guard/branch for 'wind/thermal constraint violated' referencing RD-NF-004 style conditions and routes to pause/abort",
+        "Shows at least one feedback loop action (monitor → adjust) before declaring 'SlewComplete'",
+        "Names actions consistently with RD-F-003 functional intent (pointing/tracking/stabilization)"
+      ]
+    },
+    {
+      "diagram_id": "AD-OPS-003",
+      "type": "AD",
+      "title": "AD OPS: Target Acquisition & Guide Star Acquisition Activity",
+      "goal": "Model acquisition steps from coarse target acquisition to guide star lock and image stabilization readiness, including operator/OCS coordination.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-F-003",
+        "BDD-SUB06-001",
+        "BDD-SUB07-001",
+        "BDD-SUB01-001"
+      ],
+      "acceptance_checks": [
+        "Defines an action with in items for target selection and instrument selection/port status",
+        "Includes actions for 'acquire target', 'select guide source', 'close guiding loop' (at behavioral level)",
+        "Includes an exception branch for 'guide star unavailable' leading to alternate acquisition strategy or abort",
+        "Produces a named postcondition output item (e.g., AcquisitionStatus=Locked)",
+        "Includes at least one interface handoff between OCS and instrument subsystem as explicit actions"
+      ]
+    },
+    {
+      "diagram_id": "AD-SUB04-001",
+      "type": "AD",
+      "title": "AD SUB04: Segment Alignment & Phasing (APS Loop Closure) Activity",
+      "goal": "Represent the APS behavior: wavefront sensing/metrology → compute segment pose error → issue actuator commands → converge within phasing tolerances.",
+      "dependencies": [
+        "RD-F-004",
+        "BDD-SUB04-001",
+        "BDD-SUB01-001",
+        "RD-NF-005"
+      ],
+      "acceptance_checks": [
+        "Defines an action (e.g., ClosePhasingLoop) with in items for WfsFrame/MetrologyInput and TimeSync",
+        "Contains a loop pattern (sense → estimate → command → verify) expressed via repeated then action steps and explicit convergence check",
+        "Includes a guard for 'cannot converge within recoveryTime' and routes to fault response handoff",
+        "Mentions segment count context (e.g., iterating over segments) at least as a named action or parameter item",
+        "Captures timing/latency sensitivity by including a step that references clock sync / loop cadence considerations"
+      ]
+    },
+    {
+      "diagram_id": "AD-SUB05-001",
+      "type": "AD",
+      "title": "AD SUB05: AO Acquisition & Optional Loop Closure Activity",
+      "goal": "Model the optional AO bring-up: guide star selection (NGS/LGS), WFS calibration, RTC initialization, DM engagement, and stable closed-loop operation.",
+      "dependencies": [
+        "RD-F-001",
+        "RD-NF-005",
+        "BDD-SUB05-001",
+        "AD-OPS-003"
+      ],
+      "acceptance_checks": [
+        "Defines an action with in items for AOEnable flag and GuideSource selection",
+        "Includes steps for 'WFS calibration', 'RTC start', 'DM engage', and 'verify residual WFE/Strehl proxy'",
+        "Has a branch that bypasses AO when AOEnable=false and returns a clear status output",
+        "Includes a safety branch for laser-related constraints if LGS path is selected (modeled as a guard and handoff)",
+        "Ends with a declared condition 'AO_Loop_Stable' or equivalent"
+      ]
+    },
+    {
+      "diagram_id": "AD-OPS-004",
+      "type": "AD",
+      "title": "AD OPS: Science Exposure Loop (Expose → Readout → Metadata → QA) Activity",
+      "goal": "Capture the repeated exposure loop including instrument configuration, exposure execution, readout, metadata/provenance capture, quick-look QA, and decision to continue/stop.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-F-007",
+        "BDD-SUB06-001",
+        "BDD-SUB08-001",
+        "BDD-SUB07-001"
+      ],
+      "acceptance_checks": [
+        "Defines an action with in items for ExposurePlan and InstrumentConfig",
+        "Includes explicit steps for 'start exposure', 'readout', 'capture metadata', and 'quick-look QA'",
+        "Includes a decision step 'QA ok?' that either continues loop or triggers adjustment/abort",
+        "Includes a step for data handoff to Data System (acquisition/metadata) expressed as an action boundary",
+        "Provides a loop termination condition (time budget met, SNR target met, or operator stop)"
+      ]
+    },
+    {
+      "diagram_id": "AD-SUB08-001",
+      "type": "AD",
+      "title": "AD SUB08: Data Capture, Integrity Check, and Delivery Staging Activity",
+      "goal": "Model data system behavior for ingesting raw frames, applying integrity checks, registering provenance/metadata, staging for pipeline, and producing delivery-ready artifacts.",
+      "dependencies": [
+        "RD-F-007",
+        "BDD-SUB08-001",
+        "RD-NF-005"
+      ],
+      "acceptance_checks": [
+        "Defines an action with in items for RawDataUnit and ObservingContext/Configuration",
+        "Includes explicit integrity check step (checksum/digest or missing data detection) and a branch on failure",
+        "Includes actions for 'register provenance', 'persist metadata schema version', and 'stage for pipeline'",
+        "Produces an output item 'DataProductHandle' or equivalent delivery token",
+        "Includes retry/acknowledgement behavior at least as a named action/branch consistent with RD-F-007 interface expectations"
+      ]
+    },
+    {
+      "diagram_id": "AD-OPS-005",
+      "type": "AD",
+      "title": "AD OPS: Calibration Sequence (Flats/Darks/Arcs + WFS Cal) Activity",
+      "goal": "Describe calibration workflows across instruments and wavefront sensing, including scheduling hooks, execution, validation, and archival tagging.",
+      "dependencies": [
+        "RD-F-002",
+        "BDD-SUB06-001",
+        "BDD-SUB04-001",
+        "BDD-SUB08-001",
+        "BDD-SUB07-001"
+      ],
+      "acceptance_checks": [
+        "Defines an action with in items for CalibrationType and InstrumentPort selection",
+        "Contains separate branches for at least two calibration types (e.g., flat vs dark) plus an optional WFS calibration",
+        "Includes a validation step (calibration quality / completeness) and a retry or flagging path",
+        "Includes data/metadata tagging step that feeds Data System",
+        "Ends with a named postcondition 'CalibrationReady' or 'CalibrationRecorded'"
+      ]
+    },
+    {
+      "diagram_id": "AD-OPS-006",
+      "type": "AD",
+      "title": "AD OPS: Weather Abort & Controlled Pause Activity",
+      "goal": "Model how environmental constraints (wind/thermal/dust) trigger pausing exposures, parking, protecting optics/instruments, and preserving data integrity.",
+      "dependencies": [
+        "RD-NF-004",
+        "RD-F-002",
+        "RD-OPS-002",
+        "BDD-SUB03-001",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001"
+      ],
+      "acceptance_checks": [
+        "Defines an action with in items for EnvironmentStatus and CurrentOpsState",
+        "Includes guards for at least wind and temperature gradient thresholds and routes to pause/abort actions",
+        "Contains explicit steps for 'stop exposure safely', 'park/close shutters' (or equivalent enclosure protection), and 'log event'",
+        "Includes a step ensuring data/metadata completeness before termination (e.g., finalize exposure record)",
+        "Ends in a safe operational state aligned with RD-OPS-001 (e.g., SafeParkMode)"
+      ]
+    },
+    {
+      "diagram_id": "AD-OPS-007",
+      "type": "AD",
+      "title": "AD OPS: Fault Detection → Safe-State Transition → Recovery Attempt Activity",
+      "goal": "Represent the generic fault response workflow: detect fault, classify, transition to safe state, notify operator, attempt recovery, or escalate to maintenance.",
+      "dependencies": [
+        "RD-OPS-003",
+        "RD-F-008",
+        "BDD-SUB07-001",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001"
+      ],
+      "acceptance_checks": [
+        "Defines an action with in items for FaultIndication and FaultClass",
+        "Includes steps for classification, annunciation, safe-state command, and verification that safe state is maintained",
+        "Contains at least two recovery branches (automatic retry vs operator/maintenance intervention)",
+        "Includes mandatory logging/audit step consistent with safety/compliance needs",
+        "Terminates in either 'RecoveredToStandby' or 'MaintenanceRequired' with explicit end conditions"
+      ]
+    },
+    {
+      "diagram_id": "AD-SUB09-001",
+      "type": "AD",
+      "title": "AD SUB09: Safety Interlock Trip Handling (E-Stop / Access / Motion Inhibit) Activity",
+      "goal": "Model safety PLC/interlock behavior at a system level: detect triggers, inhibit motion/energy, enforce safe state, and require authorization for reset.",
+      "dependencies": [
+        "RD-F-008",
+        "RD-NF-006",
+        "BDD-SUB09-001",
+        "RD-NF-005"
+      ],
+      "acceptance_checks": [
+        "Defines an action with in items for InterlockTrigger and CurrentMotionState",
+        "Includes steps to inhibit motion and/or remove power enable (modeled as actions), plus alarm annunciation",
+        "Includes a guarded reset path requiring authorization (modeled as an input item / decision gate)",
+        "Includes event record/logging action with time reference to satisfy auditability intent",
+        "Ends with 'InterlockCleared' only after verification steps are modeled"
+      ]
+    },
+    {
+      "diagram_id": "AD-OPS-008",
+      "type": "AD",
+      "title": "AD OPS: Observatory Shutdown & Safe Park Activity",
+      "goal": "Capture normal shutdown: stop observing, safe park optics/mount, secure enclosure, preserve logs, and transition to standby/offline modes.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-OPS-001",
+        "BDD-SUB02-001",
+        "BDD-SUB03-001",
+        "BDD-SUB07-001",
+        "BDD-SUB09-001",
+        "BDD-SUB10-001"
+      ],
+      "acceptance_checks": [
+        "Defines an action with in items for ShutdownCommand and CurrentMode",
+        "Includes steps for 'end exposure', 'park mount', 'secure enclosure', 'disable nonessential subsystems'",
+        "Includes safety confirmation step (interlocks ok / access state ok) before final power-down actions",
+        "Includes data/telemetry finalization (flush logs, ensure data staged) as explicit actions",
+        "Ends in a named state consistent with RD-OPS-001 (e.g., StandbyMode or SafeParkMode)"
+      ]
+    },
+    {
+      "diagram_id": "AD-SUB10-001",
+      "type": "AD",
+      "title": "AD SUB10: Maintenance Mode Entry & Segment Handling Prep Activity",
+      "goal": "Model entry into maintenance mode focusing on making the system safe for maintenance and preparing segment handling operations (without going into detailed mechanical procedures).",
+      "dependencies": [
+        "RD-OPS-001",
+        "RD-NF-003",
+        "BDD-SUB10-001",
+        "BDD-SUB09-001",
+        "BDD-SUB01-002"
+      ],
+      "acceptance_checks": [
+        "Defines an action with in items for MaintenanceRequest and MaintenanceAccessAuthorization",
+        "Includes steps to transition from observing/standby to maintenance mode with safety gates",
+        "Includes explicit isolation steps (energy isolation, motion inhibit, access interlocks) modeled as actions",
+        "Includes a step to record maintenance context (what/why/when) for traceability and audit purposes",
+        "Ends with 'MaintenanceReady' and includes a branch for 'authorization denied' that returns to safe standby"
+      ]
+    },
+    {
+      "diagram_id": "PD-PRF-001",
+      "type": "PD",
+      "title": "PD PRF 001: Top-Level Performance Parameter Budget (Sensitivity/Resolution Anchor)",
+      "goal": "Establish the phase-PD baseline set of top-level performance parameters (bands, WFE contributors, pointing/jitter contributors, throughput) and bind them to RD performance NFRs as the controlling budget anchors for downstream PD diagrams.",
+      "dependencies": [
+        "RD-NF-001",
+        "RD-NF-002",
+        "RD-PKG-001",
+        "RD-TR-001",
+        "BDD-SUB01-001",
+        "BDD-SUB02-001",
+        "BDD-SUB05-001",
+        "BDD-SUB06-001"
+      ],
+      "acceptance_checks": [
+        "Defines a PD package with explicit value types/units for wavelength, WFE, throughput, jitter, drift, exposure time, duty cycle",
+        "Includes budget tables (as attributes) and at least 6 named budget line items mapped to contributing subsystems",
+        "Contains constraints that show how contributors roll up to top-level performance margins (e.g., RSS for WFE/jitter)",
+        "Traces each top-level parameter back to RD-NF-001 and RD-NF-002 via named references/anchors",
+        "All parameter names follow RD-PKG-001 conventions and are consistent across diagrams (same spelling/units)"
+      ]
+    },
+    {
+      "diagram_id": "PD-OPT-001",
+      "type": "PD",
+      "title": "PD OPT 001: Optical Wavefront Error (WFE) Allocation Budget (M1/M2/M3/APS/AO)",
+      "goal": "Allocate WFE contributors across optical train elements (M1 segments, M2, M3), alignment & phasing, and optional AO residuals, establishing explicit allocations and margins for PD baselining.",
+      "dependencies": [
+        "PD-PRF-001",
+        "RD-F-004",
+        "RD-NF-001",
+        "BDD-SUB01-001",
+        "BDD-SUB04-001",
+        "BDD-SUB05-001"
+      ],
+      "acceptance_checks": [
+        "Defines WFE value types with units and at least 10 contributor terms (fabrication, gravity, thermal, alignment, phasing residual, AO residual optional, etc.)",
+        "Includes at least one roll-up constraint (e.g., RSS) and a margin attribute",
+        "Shows explicit allocations per subsystem and references to the corresponding BDD elements by name",
+        "Includes a switch/flag parameter for AO enabled/disabled affecting the roll-up (optional AO path)",
+        "Has a named acceptance constraint verifying total WFE <= allocated limit from PD-PRF-001"
+      ]
+    },
+    {
+      "diagram_id": "PD-OPT-002",
+      "type": "PD",
+      "title": "PD OPT 002: End-to-End Throughput Budget (Optics + Instruments)",
+      "goal": "Define an end-to-end throughput budget across optical surfaces and instrument interfaces, including allocation per surface group and an overall minimum throughput target tied to sensitivity NFR.",
+      "dependencies": [
+        "PD-PRF-001",
+        "RD-NF-001",
+        "BDD-SUB01-001",
+        "BDD-SUB06-001"
+      ],
+      "acceptance_checks": [
+        "Defines throughput as dimensionless fraction/percent with wavelength band indexing",
+        "Includes at least 8 throughput contributors (mirror reflectivity per surface group, scattering, obscuration, instrument interface losses)",
+        "Provides a roll-up constraint multiplying contributors to compute end-to-end throughput",
+        "References RD-NF-001 sensitivity terms and includes margin/contingency line items",
+        "Includes a check that computed throughput meets the minimum threshold for at least one representative band"
+      ]
+    },
+    {
+      "diagram_id": "PD-PT-001",
+      "type": "PD",
+      "title": "PD PT 001: Pointing/Tracking Error Budget (Static + Dynamic)",
+      "goal": "Allocate pointing and tracking error contributors (model error, encoder error, servo error, wind shake, structural flexure) and define roll-up to meet RD pointing/tracking functional and NFR constraints.",
+      "dependencies": [
+        "PD-PRF-001",
+        "RD-F-003",
+        "RD-NF-002",
+        "BDD-SUB02-001",
+        "BDD-SUB07-001"
+      ],
+      "acceptance_checks": [
+        "Defines value types for arcsec, arcsec/hr, ms latency, and bandwidth Hz",
+        "Includes separate static and dynamic contributor groups with at least 12 line items total",
+        "Roll-up constraint computes total pointing error and total tracking error against allocated limits",
+        "Names contributor ownership (Mount/Structure vs OCS control loop vs environment) and ties to BDD elements",
+        "Includes a margin policy attribute (e.g., reserve percent) applied consistently to totals"
+      ]
+    },
+    {
+      "diagram_id": "PD-PT-002",
+      "type": "PD",
+      "title": "PD PT 002: Image Motion / Jitter Budget (Frequency-Banded)",
+      "goal": "Budget jitter contributions by frequency band (e.g., low/mid/high) to match stability requirements and inform vibration control allocation.",
+      "dependencies": [
+        "PD-PT-001",
+        "RD-NF-002",
+        "BDD-SUB02-001",
+        "BDD-SUB01-001"
+      ],
+      "acceptance_checks": [
+        "Defines frequency band bins with units and at least 3 bins",
+        "Allocates jitter RMS per bin with at least 9 contributor terms across structure, drives, wind, instruments",
+        "Provides a constraint that sums/bounds per-bin jitter to an overall RMS target",
+        "Includes a named mapping from contributor -> mitigation approach (e.g., isolation, control tuning) as attributes/enums",
+        "All contributors are uniquely named and do not duplicate PD-PT-001 terms without explicit reuse reference"
+      ]
+    },
+    {
+      "diagram_id": "PD-VIB-001",
+      "type": "PD",
+      "title": "PD VIB 001: Structural Vibration & Windshake Allocation (Mount/Enclosure Coupling)",
+      "goal": "Quantify and allocate vibration/windshake contributions due to enclosure wind environment and mount/structure dynamics, providing parameters used by pointing/jitter budgets.",
+      "dependencies": [
+        "PD-PT-002",
+        "RD-NF-004",
+        "BDD-SUB02-001",
+        "BDD-SUB03-001"
+      ],
+      "acceptance_checks": [
+        "Defines wind speed, turbulence proxy, and vibration amplitude value types with units",
+        "Includes at least 6 coupling terms between enclosure airflow and structural response",
+        "Exports (via named attributes) the jitter contributions referenced by PD-PT-002",
+        "Includes constraints for maximum allowable wind speed operation consistent with RD-NF-004",
+        "Contains at least one sensitivity parameter (e.g., slope per m/s wind) explicitly named"
+      ]
+    },
+    {
+      "diagram_id": "PD-TH-001",
+      "type": "PD",
+      "title": "PD TH 001: Observatory Thermal Stability Budget (Optics + Enclosure + HVAC)",
+      "goal": "Allocate thermal stability parameters (gradients, soak times, allowable deltas) that affect seeing/WFE and operational constraints, tied to environmental NFR.",
+      "dependencies": [
+        "PD-OPT-001",
+        "RD-NF-004",
+        "BDD-SUB03-001",
+        "BDD-SUB01-001"
+      ],
+      "acceptance_checks": [
+        "Defines temperature, gradient, and time constant value types with units",
+        "Allocates at least 10 thermal terms (mirror temps, enclosure air, instrument bay, HVAC exchange, night-time cooldown)",
+        "Includes constraints linking thermal gradients to WFE contributor terms referenced by PD-OPT-001",
+        "Defines operational thresholds consistent with RD-NF-004 (pause/abort thresholds as parameters)",
+        "Includes a margin/reserve field and a named compliance check constraint"
+      ]
+    },
+    {
+      "diagram_id": "PD-PWR-001",
+      "type": "PD",
+      "title": "PD PWR 001: Electrical Power Budget (Steady-State + Peaks)",
+      "goal": "Create a power allocation across major subsystems with steady-state and peak/ transient loads, including safety-critical loads and backup behavior tie-ins.",
+      "dependencies": [
+        "RD-IF-003",
+        "RD-IF-001",
+        "BDD-SUB03-001",
+        "BDD-SUB02-001",
+        "BDD-SUB07-001",
+        "BDD-SUB06-001",
+        "BDD-SUB09-001"
+      ],
+      "acceptance_checks": [
+        "Defines power value types (kW, kVA) and distinguishes steady vs peak",
+        "Includes at least 12 subsystem line items with named owners",
+        "Includes at least 2 backup/UPS-related parameters aligned with RD-IF-003 backup behavior",
+        "Provides roll-up constraints for total steady and total peak with margins",
+        "Includes a safety-critical load subset and verifies it is supported under backup mode assumptions"
+      ]
+    },
+    {
+      "diagram_id": "PD-DATA-001",
+      "type": "PD",
+      "title": "PD DATA 001: Data Rate & Volume Budget (Acquisition → Archive)",
+      "goal": "Budget raw data rates, metadata overhead, quick-look products, pipeline outputs, and archive ingest volumes to ensure feasibility against interface and data requirements.",
+      "dependencies": [
+        "RD-F-007",
+        "RD-NF-005",
+        "RD-IF-001",
+        "BDD-SUB08-001",
+        "BDD-SUB07-001",
+        "BDD-SUB06-001"
+      ],
+      "acceptance_checks": [
+        "Defines data rate (Gbps), volume (TB/night), and latency value types with units",
+        "Includes at least 10 contributors (instrument raw, metadata, telemetry, QA products, pipeline intermediates, archive replication)",
+        "Includes constraints that compute nightly volume and peak throughput requirements",
+        "References timing/latency NFR terms from RD-NF-005 and provides at least one end-to-end latency check",
+        "Defines named interface capacity parameters that can be reused by network/storage PD diagrams"
+      ]
+    },
+    {
+      "diagram_id": "PD-NET-001",
+      "type": "PD",
+      "title": "PD NET 001: Network Bandwidth & Availability Budget (Onsite + External Links)",
+      "goal": "Allocate network capacity and availability targets across onsite backbone, control/telemetry, and partner/external networks, tied to site interface requirements.",
+      "dependencies": [
+        "PD-DATA-001",
+        "RD-IF-003",
+        "RD-NF-005",
+        "RD-IF-001",
+        "BDD-SUB03-001",
+        "BDD-SUB07-001",
+        "BDD-SUB08-001"
+      ],
+      "acceptance_checks": [
+        "Defines bandwidth, packet loss, and uptime/availability value types",
+        "Includes at least 8 network segments/links (onsite backbone, control network, telemetry streaming, external partner link, time sync distribution)",
+        "Provides constraints that compare required vs provided capacities derived from PD-DATA-001",
+        "Defines availability allocations per segment and a roll-up check for end-to-end data delivery path",
+        "Includes explicit assumptions for redundancy/failover aligned with RD-IF-003"
+      ]
+    },
+    {
+      "diagram_id": "PD-TIM-001",
+      "type": "PD",
+      "title": "PD TIM 001: Timing & Synchronization Budget (Time Source → Subsystems)",
+      "goal": "Parameterize time distribution accuracy, timestamping, and loop closure latencies across subsystems, ensuring consistency with timing NFR and interfaces.",
+      "dependencies": [
+        "RD-NF-005",
+        "RD-IF-001",
+        "BDD-SUB07-001",
+        "BDD-SUB04-001",
+        "BDD-SUB05-001",
+        "BDD-SUB08-001"
+      ],
+      "acceptance_checks": [
+        "Defines time accuracy, jitter, offset, and timestamp resolution value types",
+        "Includes at least 8 timing paths (time source to OCS, APS, AO RTC, instruments, data acquisition, safety logging)",
+        "Has constraints that verify clock sync accuracy and timestamp accuracy meet RD-NF-005",
+        "Includes at least one closed-loop latency budget for a control loop (APS or guiding/AO) with named contributors",
+        "Ensures all time-related parameters reference a single declared time standard within the PD package"
+      ]
+    },
+    {
+      "diagram_id": "PD-AVL-001",
+      "type": "PD",
+      "title": "PD AVL 001: Availability Budget (Observing Time Loss Allocation)",
+      "goal": "Allocate observing time losses (weather, faults, maintenance, calibration overhead, startup/shutdown) to meet availability targets from ARM NFR and ops requirements.",
+      "dependencies": [
+        "RD-NF-003",
+        "RD-F-002",
+        "RD-OPS-001",
+        "BDD-SUB10-001"
+      ],
+      "acceptance_checks": [
+        "Defines availability, downtime hours, and loss categories as typed parameters",
+        "Includes at least 10 loss categories and a roll-up constraint computing achieved availability",
+        "Explicitly separates planned vs unplanned downtime and ties categories to ops modes in RD-OPS-001",
+        "Includes at least one parameter that references calibration cadence/time from RD-F-002",
+        "Contains a named check: achieved availability >= target from RD-NF-003"
+      ]
+    },
+    {
+      "diagram_id": "PD-ARM-001",
+      "type": "PD",
+      "title": "PD ARM 001: Reliability Allocation Budget (MTBF/Failure Rate by Subsystem)",
+      "goal": "Allocate reliability targets by subsystem (mount, optics control, enclosure, OCS, data, safety) to support overall availability modeling and verification planning.",
+      "dependencies": [
+        "PD-AVL-001",
+        "RD-NF-003",
+        "BDD-SUB01-001",
+        "BDD-SUB02-001",
+        "BDD-SUB03-001",
+        "BDD-SUB04-001",
+        "BDD-SUB07-001",
+        "BDD-SUB08-001",
+        "BDD-SUB09-001"
+      ],
+      "acceptance_checks": [
+        "Defines MTBF, failure rate, repair time value types with units",
+        "Includes at least 9 subsystem allocations with roll-up to system-level target",
+        "References the same subsystem naming as BDD packages (no new inconsistent names)",
+        "Provides a linkage parameter set usable by PD-AVL-001 (e.g., expected unplanned downtime from failures)",
+        "Includes a simple sanity constraint preventing negative or zero MTBF values"
+      ]
+    },
+    {
+      "diagram_id": "PD-MNT-001",
+      "type": "PD",
+      "title": "PD MNT 001: Maintainability & Service Time Budget (Segments/Instrument Swap)",
+      "goal": "Budget maintenance durations and frequencies for key maintainability drivers (segment handling, actuator calibration, instrument swaps) that impact availability and ops planning.",
+      "dependencies": [
+        "PD-AVL-001",
+        "RD-NF-003",
+        "RD-F-002",
+        "BDD-SUB10-001",
+        "BDD-SUB06-001",
+        "BDD-SUB04-001"
+      ],
+      "acceptance_checks": [
+        "Defines service duration, cadence, crew size (optional), and MTTR-related value types",
+        "Includes at least 8 maintenance activities with frequency and duration",
+        "Roll-up constraint computes planned maintenance time loss per observing period and feeds PD-AVL-001 category mapping",
+        "Explicitly includes instrument swap and segment-related tasks with named references to relevant subsystems",
+        "Includes at least one constraint ensuring maintenance tasks are only scheduled in allowed ops modes (standby/maintenance)"
+      ]
+    },
+    {
+      "diagram_id": "PD-IF-001",
+      "type": "PD",
+      "title": "PD IF 001: Instrument Services Capacity Budget (Power/Data/Thermal/Control)",
+      "goal": "Translate black-box instrument port requirements into allocated service capacities and margins per port/service category for PD baseline.",
+      "dependencies": [
+        "RD-IF-002",
+        "RD-F-005",
+        "BDD-SUB06-001",
+        "BDD-SUB03-001",
+        "PD-PWR-001",
+        "PD-NET-001",
+        "PD-TH-001"
+      ],
+      "acceptance_checks": [
+        "Defines per-port capacity parameters for power, data bandwidth, thermal removal, and control reliability",
+        "Includes at least 6 service categories and at least 3 representative ports (or port classes)",
+        "Provides constraints checking RD-IF-002 required vs actual for each capacity dimension with margin",
+        "Explicitly references upstream budgets (PD-PWR-001, PD-NET-001, PD-TH-001) as available capacity sources",
+        "Includes naming consistency for port IDs aligned with BDD-SUB06-001"
+      ]
+    },
+    {
+      "diagram_id": "PD-SFTY-001",
+      "type": "PD",
+      "title": "PD SFTY 001: Safety Integrity Budget (Interlock Coverage + Response Time)",
+      "goal": "Quantify safety interlock response times, coverage allocations, and logging/audit retention parameters to support safety functional requirements and compliance NFRs.",
+      "dependencies": [
+        "RD-F-008",
+        "RD-NF-006",
+        "RD-OPS-003",
+        "BDD-SUB09-001",
+        "PD-TIM-001"
+      ],
+      "acceptance_checks": [
+        "Defines response time, coverage percentage, and event logging retention value types",
+        "Includes at least 8 hazards/mitigation lines tied to RD-F-008 hazard entries (by name or ID)",
+        "Has constraints verifying response times meet allocated maxima and that safe state entry time is bounded",
+        "Includes parameters for audit/event logging aligned with RD-NF-006 (immutability/retention/searchability as needed)",
+        "References PD-TIM-001 timing accuracy for event timestamps and includes at least one timestamp consistency check"
+      ]
+    },
+    {
+      "diagram_id": "PD-CAL-001",
+      "type": "PD",
+      "title": "PD CAL 001: Calibration Overhead Budget (Time + Data + Cadence)",
+      "goal": "Budget calibration time overheads, cadences, and resulting data products/metadata impacts to ensure observing efficiency and data integrity targets.",
+      "dependencies": [
+        "RD-F-002",
+        "RD-F-007",
+        "PD-DATA-001",
+        "PD-AVL-001",
+        "BDD-SUB06-001",
+        "BDD-SUB07-001",
+        "BDD-SUB08-001"
+      ],
+      "acceptance_checks": [
+        "Defines calibration types, cadence, per-activity duration, and overhead fraction value types",
+        "Includes at least 8 calibration activities (flats/darks/arcs/WFS calib/pointing model updates, etc.)",
+        "Roll-up constraint computes calibration overhead fraction and feeds PD-AVL-001 planned loss category",
+        "Includes constraints for quick-look QA availability timing tied to RD-F-007 requirements",
+        "Ensures each calibration activity produces defined metadata fields or references a metadata completeness parameter set"
+      ]
+    },
+    {
+      "diagram_id": "PD-CFG-001",
+      "type": "PD",
+      "title": "PD CFG 001: Configuration Variant Parameters (AO Optional + Instrument Modes)",
+      "goal": "Define a PD parameterization for key configuration variants (AO enabled/disabled, instrument class selection) to enable consistent budget switching without duplicating models.",
+      "dependencies": [
+        "PD-OPT-001",
+        "PD-TIM-001",
+        "PD-DATA-001",
+        "RD-OPS-002",
+        "BDD-SUB05-001",
+        "BDD-SUB06-001",
+        "BDD-SUB07-001"
+      ],
+      "acceptance_checks": [
+        "Defines a configuration parameter set with at least 2 major variant axes (AO enablement, instrument mode/class)",
+        "Includes constraints that select different budget values (WFE/latency/data rate) based on configuration flags",
+        "References operational scenarios (primary vs alternate) as configuration drivers using RD-OPS-002 identifiers",
+        "Ensures variant selection does not create invalid combinations via at least one explicit constraint",
+        "All configuration parameters have stable names and are referenced by at least 3 other PD diagrams in this plan"
+      ]
+    }
+  ],
+  "status_by_id": {
+    "RD-CTX-001": "done",
+    "RD-CTX-002": "done",
+    "RD-CTX-003": "done",
+    "RD-ASM-001": "done",
+    "RD-F-001": "done",
+    "RD-F-002": "done",
+    "RD-F-003": "done",
+    "RD-F-004": "done",
+    "RD-F-005": "done",
+    "RD-F-006": "done",
+    "RD-F-007": "done",
+    "RD-F-008": "done",
+    "RD-NF-001": "done",
+    "RD-NF-002": "done",
+    "RD-NF-003": "done",
+    "RD-NF-004": "done",
+    "RD-NF-005": "done",
+    "RD-NF-006": "done",
+    "RD-IF-001": "done",
+    "RD-IF-002": "done",
+    "RD-IF-003": "done",
+    "RD-OPS-001": "done",
+    "RD-OPS-002": "done",
+    "RD-OPS-003": "done",
+    "RD-VER-001": "done",
+    "RD-TR-001": "done",
+    "RD-TR-002": "done",
+    "RD-PKG-001": "done",
+    "BDD-SYS-001": "expired",
+    "BDD-SYS-002": "expired",
+    "BDD-OPT-001": "expired",
+    "BDD-OPT-002": "expired",
+    "BDD-OPT-003": "expired",
+    "BDD-OPT-004": "expired",
+    "BDD-APS-001": "expired",
+    "BDD-APS-002": "expired",
+    "BDD-APS-003": "expired",
+    "BDD-STR-001": "expired",
+    "BDD-STR-002": "expired",
+    "BDD-ENC-001": "expired",
+    "BDD-SITE-001": "expired",
+    "BDD-SFT-001": "expired",
+    "BDD-SFT-002": "expired",
+    "BDD-DATA-001": "expired",
+    "BDD-DATA-002": "expired",
+    "BDD-SAF-001": "expired",
+    "BDD-SAF-002": "expired",
+    "BDD-OAM-001": "expired",
+    "BDD-INS-001": "expired",
+    "BDD-INS-002": "expired",
+    "BDD-AO-001": "expired",
+    "BDD-AO-002": "expired",
+    "BDD-INT-001": "expired",
+    "BDD-INT-002": "expired",
+    "BDD-PWR-001": "expired",
+    "BDD-NET-001": "expired",
+    "BDD-THERM-001": "expired",
+    "BDD-SEC-001": "expired",
+    "BDD-LOG-001": "expired",
+    "BDD-VER-001": "expired",
+    "BDD-GLOSS-001": "expired",
+    "BDD-SYS-003": "expired",
+    "BDD-SUB01-001": "done",
+    "BDD-SUB02-001": "done",
+    "BDD-SUB03-001": "done",
+    "BDD-SUB04-001": "done",
+    "BDD-SUB05-001": "done",
+    "BDD-SUB06-001": "done",
+    "BDD-SUB07-001": "done",
+    "BDD-SUB08-001": "done",
+    "BDD-SUB09-001": "done",
+    "BDD-SUB10-001": "done",
+    "BDD-SUB01-002": "done",
+    "BDD-SUB02-002": "done",
+    "BDD-SUB03-002": "done",
+    "BDD-SUB04-002": "done",
+    "BDD-SUB05-002": "done",
+    "BDD-SUB06-002": "done",
+    "BDD-SUB07-002": "done",
+    "BDD-SUB08-002": "done",
+    "BDD-SUB09-002": "done",
+    "BDD-SUB10-002": "done",
+    "BDD-SUB01-003": "done",
+    "BDD-SUB02-003": "done",
+    "BDD-SUB03-003": "done",
+    "BDD-SUB04-003": "done",
+    "BDD-SUB05-003": "done",
+    "BDD-SUB06-003": "done",
+    "BDD-SUB07-003": "done",
+    "BDD-SUB08-003": "done",
+    "BDD-SUB09-003": "done",
+    "BDD-SUB10-003": "done",
+    "IBD-ROOT-001": "expired",
+    "IBD-ROOT-002": "expired",
+    "IBD-ROOT-003": "expired",
+    "IBD-ROOT-004": "expired",
+    "IBD-ROOT-005": "expired",
+    "IBD-SUB01-001": "expired",
+    "IBD-SUB01-002": "expired",
+    "IBD-SUB01-003": "expired",
+    "IBD-SUB01-004": "expired",
+    "IBD-SUB02-001": "expired",
+    "IBD-SUB02-002": "expired",
+    "IBD-SUB02-003": "expired",
+    "IBD-SUB03-001": "expired",
+    "IBD-SUB03-002": "expired",
+    "IBD-SUB03-003": "expired",
+    "IBD-SUB04-001": "expired",
+    "IBD-SUB04-002": "expired",
+    "IBD-SUB04-003": "expired",
+    "IBD-SUB04-004": "expired",
+    "IBD-SUB05-001": "expired",
+    "IBD-SUB05-002": "expired",
+    "IBD-SUB05-003": "expired",
+    "IBD-SUB06-001": "expired",
+    "IBD-SUB06-002": "expired",
+    "IBD-SUB06-003": "expired",
+    "IBD-SUB08-001": "expired",
+    "IBD-SUB08-002": "expired",
+    "IBD-SUB08-003": "expired",
+    "IBD-SUB09-001": "expired",
+    "IBD-SUB09-002": "expired",
+    "IBD-SUB09-003": "expired",
+    "IBD-SUB10-001": "expired",
+    "IBD-SUB10-002": "expired",
+    "IBD-OPS-001": "expired",
+    "IBD-OPS-002": "expired",
+    "IBD-OPS-003": "expired",
+    "IBD-IF-INT-001": "expired",
+    "IBD-IF-INT-002": "expired",
+    "IBD-IF-INT-003": "expired",
+    "IBD-IF-INT-004": "expired",
+    "IBD-IBD-PROFILE-001": "expired",
+    "IBD-IBD-PROFILE-002": "expired",
+    "IBD-SUB03-004": "expired",
+    "IBD-SUB01-005": "expired",
+    "IBD-SUB02-004": "expired",
+    "IBD-SUB04-005": "expired",
+    "IBD-SUB05-004": "expired",
+    "IBD-SUB06-004": "expired",
+    "IBD-SUB08-004": "expired",
+    "IBD-SEC-001": "expired",
+    "IBD-ROOT-006": "expired",
+    "IBD-ROOT-007": "expired",
+    "IBD-ROOT-008": "expired",
+    "IBD-SUB07-001": "expired",
+    "IBD-SUB07-002": "expired",
+    "IBD-SUB07-003": "expired",
+    "IBD-SUB10-003": "expired",
+    "IBD-ROOT-009": "done",
+    "IBD-ROOT-010": "done",
+    "IBD-ROOT-011": "done",
+    "IBD-ROOT-012": "done",
+    "IBD-ROOT-013": "done",
+    "IBD-ROOT-014": "done",
+    "IBD-ROOT-015": "done",
+    "IBD-ROOT-016": "done",
+    "IBD-ROOT-017": "done",
+    "IBD-ROOT-018": "done",
+    "IBD-PAT-001": "done",
+    "IBD-SUB03-011": "done",
+    "IBD-SUB01-006": "done",
+    "IBD-SUB01-007": "done",
+    "IBD-SUB01-008": "done",
+    "IBD-SUB02-005": "done",
+    "IBD-SUB02-006": "done",
+    "IBD-SUB03-012": "done",
+    "IBD-SUB03-013": "done",
+    "IBD-SUB04-006": "done",
+    "IBD-SUB04-007": "done",
+    "IBD-SUB04-008": "done",
+    "IBD-SUB05-005": "done",
+    "IBD-SUB05-006": "done",
+    "IBD-SUB06-005": "done",
+    "IBD-SUB06-006": "done",
+    "IBD-SUB08-005": "done",
+    "IBD-SUB08-006": "done",
+    "IBD-SUB08-007": "done",
+    "IBD-SUB09-004": "done",
+    "IBD-SUB09-005": "done",
+    "IBD-SUB10-004": "done",
+    "IBD-SUB10-005": "done",
+    "IBD-IF-INT-005": "done",
+    "IBD-IF-INT-006": "done",
+    "IBD-IF-INT-007": "done",
+    "IBD-IF-INT-008": "done",
+    "IBD-OPS-004": "done",
+    "IBD-OPS-005": "done",
+    "IBD-OPS-006": "done",
+    "IBD-QA-001": "done",
+    "IBD-QA-002": "done",
+    "IBD-ROOT-019": "done",
+    "IBD-ROOT-020": "done",
+    "IBD-SUB07-004": "done",
+    "IBD-SUB07-005": "done",
+    "IBD-SUB07-006": "done",
+    "IBD-SUB02-007": "done",
+    "IBD-SUB01-009": "done",
+    "IBD-SUB03-014": "done",
+    "IBD-SUB05-007": "done",
+    "IBD-SUB06-007": "done",
+    "IBD-SUB08-008": "done",
+    "AD-OPS-001": "done",
+    "AD-OPS-002": "done",
+    "AD-OPS-003": "done",
+    "AD-SUB04-001": "done",
+    "AD-SUB05-001": "done",
+    "AD-OPS-004": "done",
+    "AD-SUB08-001": "done",
+    "AD-OPS-005": "done",
+    "AD-OPS-006": "done",
+    "AD-OPS-007": "done",
+    "AD-SUB09-001": "done",
+    "AD-OPS-008": "done",
+    "AD-SUB10-001": "done",
+    "PD-PRF-001": "done",
+    "PD-OPT-001": "done",
+    "PD-OPT-002": "done",
+    "PD-PT-001": "done",
+    "PD-PT-002": "done",
+    "PD-VIB-001": "done",
+    "PD-TH-001": "done",
+    "PD-PWR-001": "done",
+    "PD-DATA-001": "done",
+    "PD-NET-001": "done",
+    "PD-TIM-001": "done",
+    "PD-AVL-001": "done",
+    "PD-ARM-001": "done",
+    "PD-MNT-001": "done",
+    "PD-IF-001": "done",
+    "PD-SFTY-001": "done",
+    "PD-CAL-001": "done",
+    "PD-CFG-001": "done"
+  },
+  "attempts_by_id": {
+    "RD-CTX-001": 1,
+    "RD-CTX-002": 1,
+    "RD-CTX-003": 1,
+    "RD-ASM-001": 1,
+    "RD-F-001": 1,
+    "RD-F-002": 1,
+    "RD-F-003": 1,
+    "RD-F-004": 1,
+    "RD-F-005": 1,
+    "RD-F-006": 1,
+    "RD-F-007": 1,
+    "RD-F-008": 1,
+    "RD-NF-001": 1,
+    "RD-NF-002": 1,
+    "RD-NF-003": 1,
+    "RD-NF-004": 1,
+    "RD-NF-005": 1,
+    "RD-NF-006": 1,
+    "RD-IF-001": 1,
+    "RD-IF-002": 1,
+    "RD-IF-003": 1,
+    "RD-OPS-001": 1,
+    "RD-OPS-002": 1,
+    "RD-OPS-003": 1,
+    "RD-VER-001": 1,
+    "RD-TR-001": 1,
+    "RD-TR-002": 1,
+    "RD-PKG-001": 1,
+    "BDD-SYS-001": 0,
+    "BDD-SYS-002": 0,
+    "BDD-OPT-001": 0,
+    "BDD-OPT-002": 0,
+    "BDD-OPT-003": 0,
+    "BDD-OPT-004": 0,
+    "BDD-APS-001": 0,
+    "BDD-APS-002": 0,
+    "BDD-APS-003": 0,
+    "BDD-STR-001": 0,
+    "BDD-STR-002": 0,
+    "BDD-ENC-001": 0,
+    "BDD-SITE-001": 0,
+    "BDD-SFT-001": 0,
+    "BDD-SFT-002": 0,
+    "BDD-DATA-001": 0,
+    "BDD-DATA-002": 0,
+    "BDD-SAF-001": 0,
+    "BDD-SAF-002": 0,
+    "BDD-OAM-001": 0,
+    "BDD-INS-001": 0,
+    "BDD-INS-002": 0,
+    "BDD-AO-001": 0,
+    "BDD-AO-002": 0,
+    "BDD-INT-001": 0,
+    "BDD-INT-002": 0,
+    "BDD-PWR-001": 0,
+    "BDD-NET-001": 0,
+    "BDD-THERM-001": 0,
+    "BDD-SEC-001": 0,
+    "BDD-LOG-001": 0,
+    "BDD-VER-001": 0,
+    "BDD-GLOSS-001": 0,
+    "BDD-SYS-003": 0,
+    "BDD-SUB01-001": 19,
+    "BDD-SUB02-001": 19,
+    "BDD-SUB03-001": 4,
+    "BDD-SUB04-001": 3,
+    "BDD-SUB05-001": 2,
+    "BDD-SUB06-001": 10,
+    "BDD-SUB07-001": 8,
+    "BDD-SUB08-001": 13,
+    "BDD-SUB09-001": 3,
+    "BDD-SUB10-001": 5,
+    "BDD-SUB01-002": 2,
+    "BDD-SUB02-002": 13,
+    "BDD-SUB03-002": 8,
+    "BDD-SUB04-002": 13,
+    "BDD-SUB05-002": 3,
+    "BDD-SUB06-002": 5,
+    "BDD-SUB07-002": 13,
+    "BDD-SUB08-002": 2,
+    "BDD-SUB09-002": 13,
+    "BDD-SUB10-002": 8,
+    "BDD-SUB01-003": 4,
+    "BDD-SUB02-003": 5,
+    "BDD-SUB03-003": 3,
+    "BDD-SUB04-003": 9,
+    "BDD-SUB05-003": 13,
+    "BDD-SUB06-003": 5,
+    "BDD-SUB07-003": 13,
+    "BDD-SUB08-003": 3,
+    "BDD-SUB09-003": 13,
+    "BDD-SUB10-003": 13,
+    "IBD-ROOT-001": 0,
+    "IBD-ROOT-002": 0,
+    "IBD-ROOT-003": 0,
+    "IBD-ROOT-004": 0,
+    "IBD-ROOT-005": 0,
+    "IBD-SUB01-001": 0,
+    "IBD-SUB01-002": 0,
+    "IBD-SUB01-003": 0,
+    "IBD-SUB01-004": 0,
+    "IBD-SUB02-001": 0,
+    "IBD-SUB02-002": 0,
+    "IBD-SUB02-003": 0,
+    "IBD-SUB03-001": 0,
+    "IBD-SUB03-002": 0,
+    "IBD-SUB03-003": 0,
+    "IBD-SUB04-001": 0,
+    "IBD-SUB04-002": 0,
+    "IBD-SUB04-003": 0,
+    "IBD-SUB04-004": 0,
+    "IBD-SUB05-001": 0,
+    "IBD-SUB05-002": 0,
+    "IBD-SUB05-003": 0,
+    "IBD-SUB06-001": 0,
+    "IBD-SUB06-002": 0,
+    "IBD-SUB06-003": 0,
+    "IBD-SUB08-001": 0,
+    "IBD-SUB08-002": 0,
+    "IBD-SUB08-003": 0,
+    "IBD-SUB09-001": 0,
+    "IBD-SUB09-002": 0,
+    "IBD-SUB09-003": 0,
+    "IBD-SUB10-001": 0,
+    "IBD-SUB10-002": 0,
+    "IBD-OPS-001": 0,
+    "IBD-OPS-002": 0,
+    "IBD-OPS-003": 0,
+    "IBD-IF-INT-001": 0,
+    "IBD-IF-INT-002": 0,
+    "IBD-IF-INT-003": 0,
+    "IBD-IF-INT-004": 0,
+    "IBD-IBD-PROFILE-001": 0,
+    "IBD-IBD-PROFILE-002": 0,
+    "IBD-SUB03-004": 0,
+    "IBD-SUB01-005": 0,
+    "IBD-SUB02-004": 0,
+    "IBD-SUB04-005": 0,
+    "IBD-SUB05-004": 0,
+    "IBD-SUB06-004": 0,
+    "IBD-SUB08-004": 0,
+    "IBD-SEC-001": 0,
+    "IBD-ROOT-006": 0,
+    "IBD-ROOT-007": 0,
+    "IBD-ROOT-008": 0,
+    "IBD-SUB07-001": 0,
+    "IBD-SUB07-002": 0,
+    "IBD-SUB07-003": 0,
+    "IBD-SUB10-003": 0,
+    "IBD-ROOT-009": 21,
+    "IBD-ROOT-010": 1,
+    "IBD-ROOT-011": 1,
+    "IBD-ROOT-012": 1,
+    "IBD-ROOT-013": 3,
+    "IBD-ROOT-014": 1,
+    "IBD-ROOT-015": 1,
+    "IBD-ROOT-016": 3,
+    "IBD-ROOT-017": 1,
+    "IBD-ROOT-018": 1,
+    "IBD-PAT-001": 13,
+    "IBD-SUB03-011": 1,
+    "IBD-SUB01-006": 1,
+    "IBD-SUB01-007": 2,
+    "IBD-SUB01-008": 11,
+    "IBD-SUB02-005": 7,
+    "IBD-SUB02-006": 1,
+    "IBD-SUB03-012": 1,
+    "IBD-SUB03-013": 1,
+    "IBD-SUB04-006": 2,
+    "IBD-SUB04-007": 2,
+    "IBD-SUB04-008": 1,
+    "IBD-SUB05-005": 2,
+    "IBD-SUB05-006": 1,
+    "IBD-SUB06-005": 1,
+    "IBD-SUB06-006": 1,
+    "IBD-SUB08-005": 1,
+    "IBD-SUB08-006": 1,
+    "IBD-SUB08-007": 1,
+    "IBD-SUB09-004": 1,
+    "IBD-SUB09-005": 1,
+    "IBD-SUB10-004": 1,
+    "IBD-SUB10-005": 4,
+    "IBD-IF-INT-005": 3,
+    "IBD-IF-INT-006": 13,
+    "IBD-IF-INT-007": 1,
+    "IBD-IF-INT-008": 1,
+    "IBD-OPS-004": 1,
+    "IBD-OPS-005": 1,
+    "IBD-OPS-006": 1,
+    "IBD-QA-001": 1,
+    "IBD-QA-002": 1,
+    "IBD-ROOT-019": 4,
+    "IBD-ROOT-020": 1,
+    "IBD-SUB07-004": 1,
+    "IBD-SUB07-005": 8,
+    "IBD-SUB07-006": 5,
+    "IBD-SUB02-007": 1,
+    "IBD-SUB01-009": 7,
+    "IBD-SUB03-014": 1,
+    "IBD-SUB05-007": 1,
+    "IBD-SUB06-007": 1,
+    "IBD-SUB08-008": 1,
+    "AD-OPS-001": 1,
+    "AD-OPS-002": 1,
+    "AD-OPS-003": 1,
+    "AD-SUB04-001": 1,
+    "AD-SUB05-001": 1,
+    "AD-OPS-004": 1,
+    "AD-SUB08-001": 1,
+    "AD-OPS-005": 1,
+    "AD-OPS-006": 1,
+    "AD-OPS-007": 1,
+    "AD-SUB09-001": 1,
+    "AD-OPS-008": 1,
+    "AD-SUB10-001": 1,
+    "PD-PRF-001": 1,
+    "PD-OPT-001": 1,
+    "PD-OPT-002": 1,
+    "PD-PT-001": 1,
+    "PD-PT-002": 1,
+    "PD-VIB-001": 1,
+    "PD-TH-001": 1,
+    "PD-PWR-001": 1,
+    "PD-DATA-001": 1,
+    "PD-NET-001": 1,
+    "PD-TIM-001": 2,
+    "PD-AVL-001": 1,
+    "PD-ARM-001": 1,
+    "PD-MNT-001": 1,
+    "PD-IF-001": 1,
+    "PD-SFTY-001": 1,
+    "PD-CAL-001": 1,
+    "PD-CFG-001": 1
+  },
+  "last_error_by_id": {},
+  "replans_by_stage": {
+    "BDD": 2,
+    "IBD": 2
+  }
+}

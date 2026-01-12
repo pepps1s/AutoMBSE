@@ -1,4 +1,4 @@
-# AutoMBSE (`autombse` CLI)
+# AutoMBSE
 
 AutoMBSE is an engineering toolkit for **SysML v2 / MBSE**. Its core capability is to turn “requirements → view planning → SysML code generation → structured parsing → rule verification → evaluation” into a reproducible pipeline, with a single CLI entrypoint: `autombse`.
 
@@ -52,9 +52,7 @@ autombse pipeline run --long-period \
 
 Default output directory: `AutoMBSE/out/long_period/<run-id>/` (includes `state.json/index.json/events.jsonl/token_trace.csv/diagrams/*.sysml`, etc.).
 
-### B. View-level evaluation (`res.json`)
-
-Default input: `AutoMBSE/out/views/res.json`
+### B. View-level evaluation
 
 ```bash
 autombse eval views
@@ -90,9 +88,3 @@ Common environment variables:
 - `AUTOMBSE_CACHE_DIR`: embedding cache directory for evaluation (default: `AutoMBSE/cache/`)
 - `AUTOMBSE_PROMPTS_FILE`: override prompts library path (default: `AutoMBSE/resource/autombse.prompts.v1.yaml`)
 
-## Typical Workflow (starting from an existing `res.json`)
-
-```bash
-autombse validate res
-autombse eval views
-```
