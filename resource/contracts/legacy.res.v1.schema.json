@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "legacy.res.v1.schema.json",
+  "title": "generationPipeline/out/views/res.json",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["itemID", "code", "description"],
+    "properties": {
+      "itemID": { "type": "integer" },
+      "code": { "type": "string" },
+      "description": { "type": "string" },
+
+      "LLM_code": { "type": "string" },
+      "LLM_code_time": { "type": "number" },
+      "LLM_Case_code": { "type": "string" },
+      "LLM_Case_code_time": { "type": "number" },
+      "LLM_Case_Obj_code": { "type": "string" },
+      "LLM_Case_Obj_code_time": { "type": "number" },
+
+      "MBSE_code_gpt": { "type": "string" },
+      "MBSE_code_gpt_time": { "type": "number" },
+      "MBSE_code_ds": { "type": "string" },
+      "MBSE_code_ds_time": { "type": "number" },
+
+      "Sysml_v2_model_creator": { "type": "string" },
+      "Sysml_v2_model_creator_time": { "type": "number" },
+      "codeGEN": { "type": "string" },
+      "codeGEN_time": { "type": "number" },
+      "ttool": { "type": "string" },
+      "ttool_time": { "type": "number" },
+
+      "Chatgpt-4o": { "type": "string" },
+      "Chatgpt-4o_time": { "type": "number" },
+      "Chatgpt-4.1": { "type": "string" },
+      "Chatgpt-4.1_time": { "type": "number" },
+      "ttool-4.1": { "type": "string" },
+      "ttool-4.1_time": { "type": "number" },
+
+      "LLM_wo_case": { "type": "string" },
+      "LLM_wo_case_time": { "type": "number" },
+      "LLM_wo_knowledge": { "type": "string" },
+      "LLM_wo_knowledge_time": { "type": "number" },
+      "LLM_wo_memory": { "type": "string" },
+      "LLM_wo_memory_time": { "type": "number" },
+      "LLM_wo_feedback": { "type": "string" },
+      "LLM_wo_feedback_time": { "type": "number" },
+      "LLM_wo_cache": { "type": "string" },
+      "LLM_wo_cache_time": { "type": "number" },
+      "LLM_wo_rules": { "type": "string" },
+      "LLM_wo_rules_time": { "type": "number" },
+
+      "MBSE_wo_req": { "type": "string" },
+      "MBSE_wo_req_time": { "type": "number" },
+      "MBSE_wo_fot": { "type": "string" },
+      "MBSE_wo_fot_time": { "type": "number" },
+      "MBSE_wo_verify": { "type": "string" },
+      "MBSE_wo_verify_time": { "type": "number" }
+    },
+    "additionalProperties": true
+  }
+}

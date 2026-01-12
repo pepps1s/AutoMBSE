@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "legacy.sysml_tree.v1.schema.json",
+  "title": "generationPipeline/out/sysml_tree.json",
+  "type": "object",
+  "description": "Top-level keys are sources/method names; values are per-project trees grouped by view_type.",
+  "additionalProperties": {
+    "type": "object",
+    "additionalProperties": {
+      "type": "object",
+      "properties": {
+        "rd": { "$ref": "#/$defs/packageNodeList" },
+        "bdd": { "$ref": "#/$defs/packageNodeList" },
+        "ibd": { "$ref": "#/$defs/packageNodeList" },
+        "ad": { "$ref": "#/$defs/packageNodeList" },
+        "smd": { "$ref": "#/$defs/packageNodeList" },
+        "pd": { "$ref": "#/$defs/packageNodeList" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "packageNode": {
+      "type": "object",
+      "required": ["name", "type", "level", "project_id", "view_type", "children"],
+      "properties": {
+        "name": { "type": ["string", "null"] },
+        "type": { "type": "string" },
+        "level": { "type": "integer" },
+        "project_id": { "type": "integer" },
+        "view_type": { "type": "string" },
+        "belongsto": { "type": ["string", "null", "boolean"] },
+        "redefined": { "type": "boolean" },
+        "children": { "$ref": "#/$defs/packageNodeList" }
+      },
+      "additionalProperties": true
+    },
+    "packageNodeList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/packageNode" }
+    }
+  }
+}

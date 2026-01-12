@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "legacy.rule_states.v1.schema.json",
+  "title": "generationPipeline/out/rule_states.json",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "required": [
+      "rule_id",
+      "expression",
+      "description",
+      "total_checks",
+      "total_failures",
+      "checks_since_last_failure",
+      "failure_rate",
+      "is_breaker_open",
+      "manual_corrections",
+      "last_check_time"
+    ],
+    "properties": {
+      "rule_id": { "type": "string" },
+      "expression": { "type": "string" },
+      "description": { "type": "string" },
+      "total_checks": { "type": "integer" },
+      "total_failures": { "type": "integer" },
+      "checks_since_last_failure": { "type": "integer" },
+      "failure_rate": { "type": "number" },
+      "is_breaker_open": { "type": "boolean" },
+      "manual_corrections": { "type": "integer" },
+      "last_check_time": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}
+

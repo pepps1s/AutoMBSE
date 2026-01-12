@@ -1,0 +1,13 @@
+# Domain Knowledge Corpus (Public Example)
+#
+# This repository intentionally ships with a small, non-sensitive knowledge corpus.
+# AutoMBSE can optionally ingest this file into Qdrant, or inject it into prompts as
+# local domain knowledge (depending on your configuration).
+#
+# For real use, replace the content with a domain knowledge corpus that matches your
+# target system. Prefer concise English sentences and short paragraphs.
+#
+# Example: Waterjet propulsion system
+Waterjet propulsion uses the reaction force produced by accelerating and ejecting water through a nozzle to generate thrust.
+Typical major components include an inlet duct, impeller, stator, nozzle, shafting, steering nozzle/deflector, reverse bucket, and control/hydraulic systems.
+Key engineering topics often include operating envelope, materials and welding qualification, control/monitoring design, and functional tests (pressure, run, cavitation, steering).

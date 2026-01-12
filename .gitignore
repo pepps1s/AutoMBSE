@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Env files
+.env
+.env.*
+deployment/.env
+
+# AutoMBSE runtime caches/outputs (keep curated artifacts only)
+cache/
+out/long_period/
+out/rule_states.json
+out/sysml_tree.json
+out/log-history.md
+out/log-code.md
+out/pipeline.record.jsonl
+out/pipeline.replay.jsonl
+artifacts/baseline_manifest.json
+
+# Deployment runtime data
+deployment/data/

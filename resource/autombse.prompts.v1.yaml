@@ -1,0 +1,78 @@
+# AutoMBSE Prompt Library (v1)
+#
+# Notes:
+# - This file centralizes the “fixed prompts” (system/user/snippets) that will be sent to the LLM.
+# - Works with AutoMBSE/resource/autombse.params.v1.yaml: prompts can use {{...}} for variable substitution.
+#
+# Prompt ID rule:
+# - Reference via @prompt:<id>, where <id> is a dot-path under prompts (e.g., system.sysml_general).
+#
+version: 1
+
+prompts:
+  system:
+    sysml_general:
+      description: "Default pipeline system prompt (general SysML v2)"
+      template: |-
+        As a systems engineer working on complex projects, I am looking to adopt the SysML v2 methodology to enhance our Model-Based Systems Engineering (MBSE) capabilities. Please provide detailed code on how to implement SysML v2 for creating robust MBSE models.
+
+    bdd_part_elements:
+      description: "BDD-specific system prompt (emphasize 'part' elements)"
+      template: |-
+        As a systems engineer working on complex projects, I am looking to adopt the SysML v2 methodology to enhance our Model-Based Systems Engineering (MBSE) capabilities. Please provide detailed code on how to implement SysML v2 for creating robust BDD views with 'part' as elements.
+
+    ttool_system_engineering_helper:
+      description: "Default system prompt for TTool-AI integration"
+      template: |-
+        You are a helpful assistant for system engineering.
+
+    pump_parts_rephrase_to_json:
+      description: "Parts text extraction (output JSON fields)"
+      template: |-
+        Rewrite the input text and output in the following format:
+        {"Description": part description, "Quantity": minimum order quantity, "Est.Cost": item price (USD), "Est.Weight": item weight, "Country": country of origin}
+
+  pipeline:
+    tasks:
+      rd_nonfunctional:
+        description: "RD (non-functional) user task"
+        template: "Provide the non-functional requirements of {{target_system}}, and model them using a SysML requirements diagram."
+      rd_functional:
+        description: "RD (functional) user task"
+        template: "Provide the functional requirements of {{target_system}}, and model them using a SysML requirements diagram."
+      bdd:
+        description: "BDD user task"
+        template: "Provide the complete functional modules of {{target_system}}, supplement possible parameter values for those modules, and use SysML v2 to build a Block Definition Diagram (BDD) for {{target_system}}."
+      ibd:
+        description: "IBD user task"
+        template: "Based on the modules defined above, use SysML v2 to build an Internal Block Diagram (IBD) for {{target_system}}."
+      ad:
+        description: "AD user task"
+        template: "Use SysML v2 to build an Activity/Behavior Diagram (AD) for {{target_system}}."
+      pd:
+        description: "PD user task"
+        template: "Use SysML v2 to build a Parametric Diagram (PD) for {{target_system}}."
+
+    long_period:
+      retry_guidance:
+        description: "Long-period: overall guidance for per-diagram retries"
+        template: |-
+          You are retrying generation for the same diagram/view for the k-th attempt (not a new diagram).
+          You must fix, in order, the previous k-1 failure reasons listed below and satisfy each corresponding requirement; do not only fix the last failure.
+          In the context you will see "Previous Attempt SysML", which is the output from the previous attempt (k-1). Make the minimal changes on top of it to pass all validations; do not regenerate from scratch.
+          Cross-view consistency: any element/name/type that already appeared in dependency views must be reused exactly (case-sensitive); do not rename arbitrarily or redefine duplicates.
+          Output requirement: output only a single ```sysml code block```, with no explanatory text.
+
+      retry_previous_sysml:
+        description: "Long-period retry: provide previous SysML as the editing baseline"
+        template: |-
+          Below is the SysML you generated in the previous attempt (use it as the editing baseline).
+          Requirement: make the minimal changes needed to fix the failure reasons without breaking naming consistency with dependency views; keep correct structure and avoid unrelated changes.
+          Your final output must still contain only a single ```sysml code block```.
+
+  evaluation:
+    system:
+      sysml_v2_model_creator:
+        description: "HTTP POST (sysml_v2_model_creator / codeGEN) system context"
+        template: |-
+          As a systems engineer working on complex projects, I am looking to adopt the SysML v2 methodology to enhance our Model-Based Systems Engineering (MBSE) capabilities. Please provide detailed code on how to implement SysML v2 for creating robust MBSE models. Here's the description about the project:

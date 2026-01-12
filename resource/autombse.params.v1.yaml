@@ -1,0 +1,141 @@
+# AutoMBSE default parameters/config (v1)
+#
+# Purpose:
+# - Acts as the default configuration source for `autombse` (defaults).
+# - Provides replaceable parameters for config templating/injection (template.vars).
+# - Works with AutoMBSE/resource/autombse.prompts.v1.yaml: prompt/config strings can use {{var}} substitutions.
+#
+# Override precedence (high -> low):
+# 1) CLI args (only override corresponding fields)
+# 2) Config file passed via --config (YAML/JSON; deep-merged with defaults)
+# 3) defaults in this file
+# 4) Environment variable overrides (some fields; see code: OPENAI_API_KEY/AUTOMBSE_API_KEY, AUTOMBSE_BASE_URL, etc.)
+#
+# Template syntax:
+# - {{var}} / {{vars.var}}: variable substitution (supports dot-paths).
+#
+version: 1
+
+template:
+  strict: false
+  vars:
+    target_system: "Waterjet Propulsion System"
+
+defaults:
+  llm:
+    provider: openai_sdk # openai_sdk | http_post | ttool_ai_http
+
+    # Recommended to inject via env vars: OPENAI_API_KEY / AUTOMBSE_API_KEY
+    api_key: ""
+
+    base_url: "https://api.openai.com/v1"
+    model: "gpt-4.1"
+
+    # Optional: system prompt (supports @prompt:<id> to reference AutoMBSE/resource/autombse.prompts.v1.yaml)
+    system_prompt: "@prompt:system.sysml_general"
+
+    max_tokens: 2048
+    temperature: 0.2
+    stream: false
+
+  qdrant:
+    host: "localhost"
+    port: 6333
+
+    collections:
+      examples: "examples_vec"
+      knowledge: "knowledge_chunk"
+      pump_parts: "pump_parts_vec"
+
+  paths:
+    legacy_root: null
+
+    out_dir: "AutoMBSE/out"
+    log_history_md: "AutoMBSE/out/log-history.md"
+    log_code_md: "AutoMBSE/out/log-code.md"
+
+    examples_json: "AutoMBSE/resource/examples/example.json"
+    knowledge_txt: "AutoMBSE/resource/knowledge/knowledge.txt"
+
+    views_res_json: "AutoMBSE/out/views/res.json"
+    sysml_tree_json: "AutoMBSE/out/sysml_tree.json"
+    rule_states_json: "AutoMBSE/out/rule_states.json"
+    mbse_code_blocks_json: "AutoMBSE/out/views/mbse_code_blocks.json"
+
+    cache_dir: "AutoMBSE/cache"
+    baseline_manifest_json: "AutoMBSE/artifacts/baseline_manifest.json"
+
+  pipeline:
+    shorten_history: false
+    max_context_bytes: 98304 # legacy logic: 96*1024 (see Pipeline.response)
+
+    long_period:
+      max_context_tokens: 180000
+      safety_margin_tokens: 2000
+
+      planner:
+        target_items: 120 # target: 100+ diagrams (SysML files)
+
+      builder:
+        max_diagrams: null # null = build all pending in this run
+        max_retries: 5
+        validate_rules: true
+        rule_type: "all"
+        cross_view_validation: "strict" # auto|off|warn|strict (only effective when rule_type is cross/all)
+
+    stages:
+      - id: "RD"
+        task: "@prompt:pipeline.tasks.rd_nonfunctional"
+        examples_top_k: 1
+        domain_top_k: 2
+
+      - id: "RD"
+        task: "@prompt:pipeline.tasks.rd_functional"
+        examples_top_k: 1
+        domain_top_k: 2
+
+      - id: "BDD"
+        task: "@prompt:pipeline.tasks.bdd"
+        examples_top_k: 1
+        domain_top_k: 2
+
+      - id: "IBD"
+        task: "@prompt:pipeline.tasks.ibd"
+        examples_top_k: 1
+        domain_top_k: 2
+
+      - id: "AD"
+        task: "@prompt:pipeline.tasks.ad"
+        examples_top_k: 1
+        domain_top_k: 2
+
+      - id: "PD"
+        task: "@prompt:pipeline.tasks.pd"
+        examples_top_k: 1
+        domain_top_k: 2
+
+  evaluation:
+    methods:
+      # Default: auto-discover all baseline methods in res.json and run a full evaluation.
+      # - You can also use `--method/--methods` in the CLI (repeatable or comma-separated) to run only selected methods.
+      # - For a fixed/regression-friendly subset, replace this with an explicit list.
+      - "*"
+
+    thresholds:
+      view_level_similarity: 0.9
+      project_level_similarity: 0.955
+
+    cache:
+      enable: true
+
+    project_metric:
+      use_qdrant: true
+      recreate_collection: true
+      created_flag: false
+
+  verify:
+    rules:
+      rule_type: "all"
+
+  validate:
+    max_errors: 50
